@@ -1,4 +1,5 @@
 import Navbar from '@/components/layout/Navbar';
+import BookCard from '@/components/ui/BookCard';
 import { ModeToggle } from '@/components/ui/mode-toggle';
 
 export default function Home() {
@@ -8,6 +9,14 @@ export default function Home() {
         <ModeToggle />
       </div>
       <Navbar />
+      <div className="grid md:grid-cols-2 gap-8 my-4">
+      <BookCard />
+      <BookCard />
+      <BookCard />
+      <BookCard />
+      <BookCard />
+
+    </div>
     </main>
   );
 }
