@@ -1,4 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from '@/components/ui/menubar';
 
 export default function Navbar() {
   return (
@@ -8,12 +16,23 @@ export default function Navbar() {
           <img src="/logo.png" alt="Logo" className="h-8" />
 
           <div className="flex items-center gap-3 md:hidden">
-            <button className="p-2" aria-label="Powiadomienia">
-              🔔
-            </button>
-            <button className="p-2" aria-label="Profil użytkownika">
-              👤
-            </button>
+            <Menubar>
+              <MenubarMenu>
+                <MenubarTrigger>
+                  <img
+                    src="/icons/hamburger-icon.png"
+                    alt="Ikona książek"
+                    className="h-6 w-6"
+                  />
+                </MenubarTrigger>
+                <MenubarContent>
+                  <MenubarItem>Login</MenubarItem>
+                  <MenubarItem>Register</MenubarItem>
+                  <MenubarSeparator />
+                  <MenubarItem>Profile</MenubarItem>
+                </MenubarContent>
+              </MenubarMenu>
+            </Menubar>
           </div>
         </div>
 
@@ -40,12 +59,9 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <button className="p-2" aria-label="Powiadomienia">
-            🔔
-          </button>
-          <button className="p-2" aria-label="Profil użytkownika">
-            👤
-          </button>
+          <button className="p-2">Login</button>
+          <button className="p-2">Register</button>
+          <button className="p-2">Profile</button>
         </div>
       </div>
     </nav>
