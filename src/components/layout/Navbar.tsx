@@ -2,25 +2,51 @@
 
 export default function Navbar() {
   return (
-    <nav className="bg-orange-500 shadow p-4 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
-      <div className="flex justify-between w-full md:w-auto">
-        <img src="/logo.png" alt="User avatar" className="h-8" />
+    <nav className="bg-orange-500 shadow">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-4 p-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex w-full justify-between md:w-auto">
+          <img src="/logo.png" alt="Logo" className="h-8" />
 
-        <div className="flex items-center gap-3 md:hidden">
-          <button className="p-2">🔔</button>
-          <button className="p-2">👤</button>
+          <div className="flex items-center gap-3 md:hidden">
+            <button className="p-2" aria-label="Powiadomienia">
+              🔔
+            </button>
+            <button className="p-2" aria-label="Profil użytkownika">
+              👤
+            </button>
+          </div>
         </div>
-      </div>
 
-      <input
-        type="text"
-        placeholder="Szukaj..."
-        className="w-full  p-2 border border-gray-300 rounded-lg md:w-90"
-      />
+        <div className="w-full md:max-w-md">
+          <div className="flex w-full items-center rounded-full bg-blue-100 px-4 py-2 shadow">
+            <img
+              src="/icons/search.png"
+              alt="Ikona szukaj"
+              className="mr-3 h-5 w-5"
+            />
 
-      <div className="hidden md:flex items-center gap-3">
-        <button className="p-2">🔔</button>
-        <button className="p-2">👤</button>
+            <input
+              type="text"
+              placeholder="Harry Potter"
+              className="flex-grow bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none"
+            />
+
+            <img
+              src="/icons/book.png"
+              alt="Ikona książek"
+              className="ml-3 h-6 w-6"
+            />
+          </div>
+        </div>
+
+        <div className="hidden items-center gap-3 md:flex">
+          <button className="p-2" aria-label="Powiadomienia">
+            🔔
+          </button>
+          <button className="p-2" aria-label="Profil użytkownika">
+            👤
+          </button>
+        </div>
       </div>
     </nav>
   );
