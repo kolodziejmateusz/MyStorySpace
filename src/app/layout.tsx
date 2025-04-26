@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import type { Metadata } from 'next';
+import './globals.css';
+import { ThemeProvider } from '@/components/theme-provider';
+import Navbar from '@/components/layout/Navbar';
 
 export const metadata: Metadata = {
-  title: "My Story Space",
-  description: "My Story Space",
+  title: 'My Story Space',
+  description: 'My Story Space',
 };
 
 export default function RootLayout({
@@ -14,14 +15,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
-        {" "}
+      <body className="mx-auto w-full xl:w-[70%]">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          <Navbar />
           {children}
         </ThemeProvider>
       </body>
