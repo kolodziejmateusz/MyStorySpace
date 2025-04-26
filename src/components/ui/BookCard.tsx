@@ -2,7 +2,7 @@
 
 export default function BookCard() {
   return (
-    <div className="flex max-w-xl gap-4 rounded-xl bg-blue-100 p-4 shadow-md">
+    <div className="mx-auto my-4 flex max-w-xl gap-4 rounded-xl bg-blue-100 p-4 shadow-md">
       <img
         src="/book-covers/harry-potter.png"
         alt="Harry Potter"

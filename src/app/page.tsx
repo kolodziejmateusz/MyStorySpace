@@ -9,14 +9,13 @@ export default function Home() {
         <ModeToggle />
       </div>
       <Navbar />
-      <div className="grid md:grid-cols-2 gap-8 my-4">
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-
-    </div>
+      <div className="my-4 grid md:grid-cols-2">
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+      </div>
     </main>
   );
 }
