@@ -36,7 +36,7 @@ export default function BooksList() {
   return (
     <div className="container mx-auto py-8">
       <h1 className="mb-6 text-2xl font-bold">
-        {query ? `Wyniki wyszukiwania dla: "${query}"` : 'Popularne książki'}
+        {query ? `Search results for: "${query}"` : 'Popular books'}
       </h1>
 
       {loading ? (
