@@ -20,11 +20,26 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const query = searchParams.get('q') || 'Harry Potter'; // Domyślnie 'Harry Potter' jeśli nie podano
 
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=30&orderBy=relevance`;
-    const res = await fetch(url);
-    const data = await res.json();
+    // Zapytanie po tytule
+    const titleUrl = `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(query)}&maxResults=30`;
+    const titleRes = await fetch(titleUrl);
+    const titleData = await titleRes.json();
 
-    const books = data.items.map((item: GoogleBook) => ({
+    // Zapytanie po autorze
+    const authorUrl = `https://www.googleapis.com/books/v1/volumes?q=inauthor:${encodeURIComponent(query)}&maxResults=30`;
+    const authorRes = await fetch(authorUrl);
+    const authorData = await authorRes.json();
+
+    // Połączenie wyników i usunięcie duplikatów na podstawie ID
+    const allItems = [...(titleData.items || []), ...(authorData.items || [])];
+
+    // Tworzymy Map, gdzie kluczem jest item.id, co pozwala na unikalność wyników
+    const uniqueItems = Array.from(
+      new Map(allItems.map((item) => [item.id, item])).values(),
+    );
+
+    // Przetworzenie danych do odpowiedniego formatu
+    const books = uniqueItems.map((item: GoogleBook) => ({
       title: item.volumeInfo.title,
       authors: item.volumeInfo.authors || [],
       publishedDate: item.volumeInfo.publishedDate || 'Brak daty',
@@ -33,7 +48,7 @@ export async function GET(request: NextRequest) {
       description: item.volumeInfo.description || '',
       thumbnail:
         item.volumeInfo.imageLinks?.thumbnail ||
-        '/book-covers/harry-potter.png',
+        '/book-covers/default-cover.svg',
     }));
 
     return NextResponse.json({ books });
