@@ -1,14 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-
-type Book = {
-  title: string;
-  authors: string[];
-  publishedDate: string;
-  averageRating: number | null;
-  categories: string[];
-  description: string;
-  thumbnail: string;
-};
+import { Book } from '@/types/book';
 
 export default function BookCard({ book }: { book: Book }) {
   return (

@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 type GoogleBook = {
   volumeInfo: {
@@ -14,11 +14,13 @@ type GoogleBook = {
   };
 };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const query = 'Harry Potter';
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=30&orderBy=relevance`;
+    // Pobierz parametr 'q' z query stringa
+    const searchParams = request.nextUrl.searchParams;
+    const query = searchParams.get('q') || 'Harry Potter'; // Domyślnie 'Harry Potter' jeśli nie podano
 
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=30&orderBy=relevance`;
     const res = await fetch(url);
     const data = await res.json();
 
@@ -30,7 +32,8 @@ export async function GET() {
       categories: item.volumeInfo.categories || [],
       description: item.volumeInfo.description || '',
       thumbnail:
-        item.volumeInfo.imageLinks?.thumbnail || '/default-book-cover.png',
+        item.volumeInfo.imageLinks?.thumbnail ||
+        '/book-covers/harry-potter.png',
     }));
 
     return NextResponse.json({ books });
