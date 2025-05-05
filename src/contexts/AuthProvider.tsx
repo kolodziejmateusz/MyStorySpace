@@ -7,7 +7,7 @@ import {
   ReactNode,
 } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '@/lib/firebase'; // upewnij się, że ścieżka jest poprawna
+import { auth } from '@/lib/firebase'; 
 
 // Definicja typu dla kontekstu
 type AuthContextType = {

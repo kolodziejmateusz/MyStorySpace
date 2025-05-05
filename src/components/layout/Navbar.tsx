@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/AuthProvider';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { Button } from '../ui/button';
+import { Badge } from '@/components/ui/badge';
 
 export default function Navbar() {
   const router = useRouter();
@@ -66,16 +67,14 @@ export default function Navbar() {
                       <MenubarItem>
                         <span>{currentUser.email}</span>
                       </MenubarItem>
-                      <MenubarItem onSelect={handleLogout}>
-                        Logout
-                      </MenubarItem>
+                      <MenubarItem onClick={handleLogout}>Logout</MenubarItem>
                     </>
                   ) : (
                     <>
-                      <MenubarItem>
+                      <MenubarItem asChild>
                         <Link href="/login">Login</Link>
                       </MenubarItem>
-                      <MenubarItem>
+                      <MenubarItem asChild>
                         <Link href="/register">Register</Link>
                       </MenubarItem>
                     </>
@@ -120,13 +119,19 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           {currentUser ? (
             <>
-              <span>{currentUser.email}</span>
-              <Button variant="destructive" onClick={handleLogout}>Logout</Button>
+              <Badge variant="secondary">{currentUser.email}</Badge>
+              <Button variant="destructive" onClick={handleLogout}>
+                Logout
+              </Button>
             </>
           ) : (
             <>
-              <Link href="/login">Login</Link>
-              <Link href="/register">Register</Link>
+              <Button variant="outline" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href="/register">Register</Link>
+              </Button>
             </>
           )}
         </div>
