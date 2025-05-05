@@ -11,6 +11,10 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthProvider';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { Button } from '../ui/button';
 
 export default function Navbar() {
   const router = useRouter();
@@ -20,6 +24,16 @@ export default function Navbar() {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/books?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const { currentUser } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('Błąd wylogowania:', error);
     }
   };
 
@@ -47,14 +61,29 @@ export default function Navbar() {
                   </button>
                 </MenubarTrigger>
                 <MenubarContent>
-                  <MenubarItem>
-                    <Link href="/login">Login</Link>
-                  </MenubarItem>
-                  <MenubarItem>
-                    <Link href="/register">Register</Link>
-                  </MenubarItem>
+                  {currentUser ? (
+                    <>
+                      <MenubarItem>
+                        <span>{currentUser.email}</span>
+                      </MenubarItem>
+                      <MenubarItem onSelect={handleLogout}>
+                        Logout
+                      </MenubarItem>
+                    </>
+                  ) : (
+                    <>
+                      <MenubarItem>
+                        <Link href="/login">Login</Link>
+                      </MenubarItem>
+                      <MenubarItem>
+                        <Link href="/register">Register</Link>
+                      </MenubarItem>
+                    </>
+                  )}
                   <MenubarSeparator />
-                  <MenubarItem>Profile</MenubarItem>
+                  <MenubarItem>
+                    <Link href="/profile">Profile</Link>
+                  </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>
@@ -89,9 +118,17 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="/login">Login</Link>
-          <Link href="/register">Register</Link>
-          <Link href="/profile">Profile</Link>
+          {currentUser ? (
+            <>
+              <span>{currentUser.email}</span>
+              <Button variant="destructive" onClick={handleLogout}>Logout</Button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">Login</Link>
+              <Link href="/register">Register</Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
