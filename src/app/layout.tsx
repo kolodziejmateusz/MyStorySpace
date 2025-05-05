@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import Navbar from '@/components/layout/Navbar';
+import { AuthProvider } from '@/contexts/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'My Story Space',
@@ -22,8 +23,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
+          <AuthProvider>
+            <Navbar />
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

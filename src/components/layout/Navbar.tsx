@@ -10,6 +10,12 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
+import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthProvider';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { Button } from '../ui/button';
+import { Badge } from '@/components/ui/badge';
 
 export default function Navbar() {
   const router = useRouter();
@@ -19,6 +25,16 @@ export default function Navbar() {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(`/books?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const { currentUser } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('Błąd wylogowania:', error);
     }
   };
 
@@ -46,10 +62,27 @@ export default function Navbar() {
                   </button>
                 </MenubarTrigger>
                 <MenubarContent>
-                  <MenubarItem>Login</MenubarItem>
-                  <MenubarItem>Register</MenubarItem>
+                  {currentUser ? (
+                    <>
+                      <MenubarItem>
+                        <span>{currentUser.email}</span>
+                      </MenubarItem>
+                      <MenubarItem onClick={handleLogout}>Logout</MenubarItem>
+                    </>
+                  ) : (
+                    <>
+                      <MenubarItem asChild>
+                        <Link href="/login">Login</Link>
+                      </MenubarItem>
+                      <MenubarItem asChild>
+                        <Link href="/register">Register</Link>
+                      </MenubarItem>
+                    </>
+                  )}
                   <MenubarSeparator />
-                  <MenubarItem>Profile</MenubarItem>
+                  <MenubarItem>
+                    <Link href="/profile">Profile</Link>
+                  </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>
@@ -84,15 +117,23 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <button className="p-2" aria-label="Login">
-            Login
-          </button>
-          <button className="p-2" aria-label="Register">
-            Register
-          </button>
-          <button className="p-2" aria-label="Profile">
-            Profile
-          </button>
+          {currentUser ? (
+            <>
+              <Badge variant="secondary">{currentUser.email}</Badge>
+              <Button variant="destructive" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="outline" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href="/register">Register</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </nav>
