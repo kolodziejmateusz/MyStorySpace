@@ -10,6 +10,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
+import Link from 'next/link';
 
 export default function Navbar() {
   const router = useRouter();
@@ -46,8 +47,12 @@ export default function Navbar() {
                   </button>
                 </MenubarTrigger>
                 <MenubarContent>
-                  <MenubarItem>Login</MenubarItem>
-                  <MenubarItem>Register</MenubarItem>
+                  <MenubarItem>
+                    <Link href="/login">Login</Link>
+                  </MenubarItem>
+                  <MenubarItem>
+                    <Link href="/register">Register</Link>
+                  </MenubarItem>
                   <MenubarSeparator />
                   <MenubarItem>Profile</MenubarItem>
                 </MenubarContent>
@@ -84,15 +89,9 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <button className="p-2" aria-label="Login">
-            Login
-          </button>
-          <button className="p-2" aria-label="Register">
-            Register
-          </button>
-          <button className="p-2" aria-label="Profile">
-            Profile
-          </button>
+          <Link href="/login">Login</Link>
+          <Link href="/register">Register</Link>
+          <Link href="/profile">Profile</Link>
         </div>
       </div>
     </nav>
