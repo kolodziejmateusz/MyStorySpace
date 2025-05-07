@@ -1,6 +1,6 @@
 'use client';
 import { auth } from '@/lib/firebase';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
@@ -12,11 +12,13 @@ export default function Page() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const params = useSearchParams();
+  const returnUrl = params.get('returnUrl') ?? '/';
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await signInUserWithEmailAndPassword(email, password);
-    router.push('/');
+    router.push(returnUrl);
   };
 
   return (
