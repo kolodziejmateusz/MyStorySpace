@@ -16,12 +16,19 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPasswordError('');
+
+    if (password !== confirmPassword) {
+      setPasswordError('Hasła muszą być identyczne');
+      return;
+    }
     setLoading(true);
     try {
       await createUser(email, password);
@@ -34,6 +41,8 @@ export default function Page() {
     }
   };
 
+  const passwordsMatch =
+    password && confirmPassword && password === confirmPassword;
   return (
     <div className="mt-16 flex items-center justify-center">
       <div className="w-full max-w-md rounded-2xl bg-stone-50 p-8 shadow-lg">
@@ -105,6 +114,9 @@ export default function Page() {
                 className="w-full rounded-lg border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-orange-400 focus:outline-none"
                 required
               />
+              {passwordError && (
+                <p className="mt-1 text-sm text-red-600">{passwordError}</p>
+              )}
             </div>
             <div className="flex items-start">
               <input
@@ -131,8 +143,8 @@ export default function Page() {
             </div>
             <button
               type="submit"
-              className="w-full rounded-lg bg-orange-500 py-3 font-medium text-white transition hover:bg-orange-600"
-              disabled={!agreeTerms}
+              className="w-full rounded-lg bg-orange-500 py-3 font-medium text-white transition hover:bg-orange-600 disabled:opacity-50"
+              disabled={!agreeTerms || !passwordsMatch}
             >
               Create Account
             </button>
@@ -149,11 +161,9 @@ export default function Page() {
             </span>
           </div>
         </div>
-
         <button className="flex w-full items-center justify-center rounded-lg bg-gray-800 py-3 text-white transition hover:bg-gray-900">
           Sign up with Google
         </button>
-
         <p className="mt-6 text-center text-gray-600">
           Already have an account?
           <a href="/login" className="text-blue-600 hover:underline">
