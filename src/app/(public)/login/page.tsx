@@ -1,5 +1,5 @@
 'use client';
-import { auth } from '@/lib/firebase';
+import { auth } from '@/lib/firebase/firebase';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
