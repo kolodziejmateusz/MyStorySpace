@@ -4,7 +4,7 @@ import { Book } from '@/types/book';
 
 const db = getFirestore();
 
-export const addBookToFirebase = async (book: Book): Promise<void> => {
+export const addBookToFirebase = async (book: Book, status: 'to-read' | 'reading' | 'read'): Promise<void> => {
   const auth = getAuth();
   const user = auth.currentUser;
 
@@ -24,11 +24,12 @@ export const addBookToFirebase = async (book: Book): Promise<void> => {
     description: book.description,
     thumbnail: book.thumbnail,
     addedAt: new Date(),
+    status: status
   };
 
   try {
     await setDoc(bookRef, bookData);
-    alert('Książka dodana do Twojej kolekcji.');
+    alert(`Book added with status: ${status}`);
   } catch (error) {
     console.error('Błąd przy dodawaniu książki:', error);
     alert('Nie udało się dodać książki.');

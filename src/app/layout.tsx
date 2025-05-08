@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="mx-auto w-full xl:w-[70%]">
+      <body className="mx-auto w-full xl:w-[80%]">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
