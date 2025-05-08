@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 type GoogleBook = {
+  id: string;
   volumeInfo: {
     title: string;
     authors?: string[];
@@ -40,6 +41,7 @@ export async function GET(request: NextRequest) {
 
     // Przetworzenie danych do odpowiedniego formatu
     const books = uniqueItems.map((item: GoogleBook) => ({
+      id: item.id,
       title: item.volumeInfo.title,
       authors: item.volumeInfo.authors || [],
       publishedDate: item.volumeInfo.publishedDate || 'Brak daty',

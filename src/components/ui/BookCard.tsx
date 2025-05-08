@@ -1,7 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { Book } from '@/types/book';
+import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 
 export default function BookCard({ book }: { book: Book }) {
+  const handleAdd = () => {
+    addBookToFirebase(book);
+  };
   return (
     <div className="flex gap-6 rounded-xl bg-blue-100 p-4 shadow-xl">
       <img
@@ -32,6 +36,12 @@ export default function BookCard({ book }: { book: Book }) {
           <p className="mt-2 line-clamp-3">{book.description}</p>
         </div>
       </div>
+      <button
+        onClick={handleAdd}
+        className="mt-4 self-start rounded bg-blue-600 px-3 py-1 text-white hover:bg-blue-700"
+      >
+        Dodaj do moich książek
+      </button>
     </div>
   );
 }
