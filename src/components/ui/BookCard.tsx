@@ -3,7 +3,15 @@ import { Book } from '@/types/book';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 import { Button } from '@/components/ui/button';
 
-export default function BookCard({ book }: { book: Book }) {
+export default function BookCard({
+  book,
+  showButtonDelete = false,
+  showButtonAdd = false,
+}: {
+  book: Book;
+  showButtonDelete?: boolean;
+  showButtonAdd?: boolean;
+}) {
   const handleAdd = () => {
     addBookToFirebase(book);
   };
@@ -41,9 +49,12 @@ export default function BookCard({ book }: { book: Book }) {
         </div>
 
         <div className="mt-4 flex justify-end">
-          <Button onClick={handleAdd} variant="secondary">
-            Add to bookshelf
-          </Button>
+          {showButtonAdd && (
+            <Button onClick={handleAdd} variant="secondary">
+              Add to bookshelf
+            </Button>
+          )}
+          {showButtonDelete && <Button variant="destructive">Delete</Button>}
         </div>
       </div>
     </div>

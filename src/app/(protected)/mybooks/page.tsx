@@ -54,7 +54,7 @@ export default function BooksList() {
       ) : books.length > 0 ? (
         <div className="my-4 grid gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">
           {books.map((book) => (
-            <BookCard key={book.id} book={book} />
+            <BookCard key={book.id} book={book} showButtonDelete />
           ))}
         </div>
       ) : (
