@@ -1,5 +1,5 @@
 'use client';
-import { auth } from '@/lib/firebase';
+import { auth } from '@/lib/firebase/firebase';
 import { IconFidgetSpinner } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

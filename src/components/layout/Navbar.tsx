@@ -13,7 +13,7 @@ import {
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthProvider';
 import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { auth } from '@/lib/firebase/firebase';
 import { Button } from '../ui/button';
 import { Badge } from '@/components/ui/badge';
 
