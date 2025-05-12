@@ -18,6 +18,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Link from 'next/link';
 
 export default function BookCard({
   book,
@@ -35,9 +36,14 @@ export default function BookCard({
         alt={book.title}
         className="h-auto w-28 rounded-md shadow-sm"
       />
+
       <div className="flex flex-1 flex-col justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">{book.title}</h2>
+          <Link href={`/books/${book.id}`}>
+            <h2 className="text-lg font-semibold text-gray-900">
+              {book.title}
+            </h2>
+          </Link>
           <p className="text-sm text-gray-700 italic">
             {book.authors.join(' / ')} &nbsp;•&nbsp; {book.publishedDate}
           </p>
