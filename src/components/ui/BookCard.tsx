@@ -12,10 +12,6 @@ export default function BookCard({
   showButtonDelete?: boolean;
   showButtonAdd?: boolean;
 }) {
-  const handleAdd = () => {
-    addBookToFirebase(book);
-  };
-
   return (
     <div className="flex w-full gap-6 rounded-xl bg-blue-100 p-4 shadow-xl">
       <img
@@ -49,10 +45,23 @@ export default function BookCard({
         </div>
 
         <div className="mt-4 flex justify-end">
-          {showButtonAdd && (
+          {/* {showButtonAdd && (
             <Button onClick={handleAdd} variant="secondary">
               Add to bookshelf
             </Button>
+          )} */}
+          {showButtonAdd && (
+            <div>
+              <Button onClick={() => addBookToFirebase(book, 'to-read')}>
+                Do przeczytania
+              </Button>
+              <Button onClick={() => addBookToFirebase(book, 'reading')}>
+                Czytam teraz
+              </Button>
+              <Button onClick={() => addBookToFirebase(book, 'read')}>
+                Przeczytane
+              </Button>
+            </div>
           )}
           {showButtonDelete && <Button variant="destructive">Delete</Button>}
         </div>
