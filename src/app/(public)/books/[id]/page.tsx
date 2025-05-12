@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { Book } from '@/types/book';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -146,12 +147,14 @@ export default function BookDetails() {
               </h2>
               <div className="mt-2 flex flex-wrap gap-2">
                 {book.categories.map((category, index) => (
-                  <span
-                    key={index}
-                    className="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800"
-                  >
-                    {category}
-                  </span>
+                  // <span
+                  //   key={index}
+                  //   className="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800"
+                  // >
+                  //   {category}
+                  // </span>
+                          <Badge key={index} >{category}</Badge>
+
                 ))}
               </div>
             </div>
