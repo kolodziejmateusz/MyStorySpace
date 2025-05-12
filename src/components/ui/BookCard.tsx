@@ -3,6 +3,16 @@ import { Book } from '@/types/book';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 import { deleteBookFromFirebase } from '@/lib/firebase/deleteBookFromFirebase';
 import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 export default function BookCard({
   book,
@@ -65,12 +75,32 @@ export default function BookCard({
             </div>
           )}
           {showButtonDelete && (
-            <Button
-              onClick={() => deleteBookFromFirebase(book.id)}
-              variant="destructive"
-            >
-              Delete
-            </Button>
+            <>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <Button variant="destructive">Delete</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure you want to delete this book?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <Button
+                      onClick={() => deleteBookFromFirebase(book.id)}
+                      variant="destructive"
+                    >
+                      Delete
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
           )}
         </div>
       </div>
