@@ -13,6 +13,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export default function BookCard({
   book,
@@ -63,15 +68,34 @@ export default function BookCard({
           )} */}
           {showButtonAdd && (
             <div>
-              <Button onClick={() => addBookToFirebase(book, 'to-read')}>
-                Do przeczytania
-              </Button>
-              <Button onClick={() => addBookToFirebase(book, 'reading')}>
-                Czytam teraz
-              </Button>
-              <Button onClick={() => addBookToFirebase(book, 'read')}>
-                Przeczytane
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button>Add to list</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="flex flex-col">
+                  <Button
+                    variant="secondary"
+                    className="m-1"
+                    onClick={() => addBookToFirebase(book, 'to-read')}
+                  >
+                    To Read
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    className="m-1"
+                    onClick={() => addBookToFirebase(book, 'reading')}
+                  >
+                    Reading
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    className="m-1"
+                    onClick={() => addBookToFirebase(book, 'read')}
+                  >
+                    Read
+                  </Button>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           )}
           {showButtonDelete && (

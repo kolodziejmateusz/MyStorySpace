@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html className="overflow-y-scroll" lang="en" suppressHydrationWarning>
       <body className="w-full">
         <ThemeProvider
           attribute="class"
