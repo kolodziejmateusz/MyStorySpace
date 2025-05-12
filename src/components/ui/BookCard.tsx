@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Book } from '@/types/book';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
+import { deleteBookFromFirebase } from '@/lib/firebase/deleteBookFromFirebase';
 import { Button } from '@/components/ui/button';
 
 export default function BookCard({
@@ -63,7 +64,14 @@ export default function BookCard({
               </Button>
             </div>
           )}
-          {showButtonDelete && <Button variant="destructive">Delete</Button>}
+          {showButtonDelete && (
+            <Button
+              onClick={() => deleteBookFromFirebase(book.id)}
+              variant="destructive"
+            >
+              Delete
+            </Button>
+          )}
         </div>
       </div>
     </div>
