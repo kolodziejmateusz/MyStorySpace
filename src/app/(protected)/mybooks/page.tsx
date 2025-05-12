@@ -4,7 +4,12 @@ import { useEffect, useState } from 'react';
 import { Book } from '@/types/book';
 import BookCard from '@/components/ui/BookCard';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  onSnapshot,
+  query,
+} from 'firebase/firestore';
 
 const db = getFirestore();
 
@@ -17,7 +22,7 @@ export default function BooksList() {
   useEffect(() => {
     const auth = getAuth();
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
         setToRead([]);
         setReading([]);
@@ -26,27 +31,39 @@ export default function BooksList() {
         return;
       }
 
-      try {
-        setLoading(true);
-        const booksRef = collection(db, 'users', user.uid, 'books');
-        const snapshot = await getDocs(booksRef);
+      setLoading(true);
+      const booksRef = collection(db, 'users', user.uid, 'books');
+      const booksQuery = query(booksRef);
 
-        const allBooks: Book[] = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Book[];
+      // Use onSnapshot for real-time updates
+      const unsubscribeBooks = onSnapshot(
+        booksQuery,
+        (snapshot) => {
+          const allBooks: Book[] = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          })) as Book[];
 
-        // Rozdziel książki na listy
-        setToRead(allBooks.filter((book) => book.status === 'to-read'));
-        setReading(allBooks.filter((book) => book.status === 'reading'));
-        setRead(allBooks.filter((book) => book.status === 'read'));
-      } catch (error) {
-        console.error('Error fetching user books:', error);
-      } finally {
-        setLoading(false);
-      }
+          // Separate books into lists
+          setToRead(allBooks.filter((book) => book.status === 'to-read'));
+          setReading(allBooks.filter((book) => book.status === 'reading'));
+          setRead(allBooks.filter((book) => book.status === 'read'));
+
+          setLoading(false);
+        },
+        (error) => {
+          console.error('Error fetching user books:', error);
+          setLoading(false);
+        },
+      );
+
+      // Return a cleanup function that unsubscribes from both auth and books listener
+      return () => {
+        unsubscribeBooks();
+      };
     });
 
+    // Return the unsubscribe function for the auth listener
     return () => unsubscribe();
   }, []);
 

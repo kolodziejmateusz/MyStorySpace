@@ -4,12 +4,15 @@ import { Book } from '@/types/book';
 
 const db = getFirestore();
 
-export const addBookToFirebase = async (book: Book, status: 'to-read' | 'reading' | 'read'): Promise<void> => {
+export const addBookToFirebase = async (
+  book: Book,
+  status: 'to-read' | 'reading' | 'read',
+): Promise<void> => {
   const auth = getAuth();
   const user = auth.currentUser;
 
   if (!user) {
-    alert('Musisz być zalogowany!');
+    alert('You must be logged in!');
     return;
   }
 
@@ -24,14 +27,14 @@ export const addBookToFirebase = async (book: Book, status: 'to-read' | 'reading
     description: book.description,
     thumbnail: book.thumbnail,
     addedAt: new Date(),
-    status: status
+    status: status,
   };
 
   try {
     await setDoc(bookRef, bookData);
     alert(`Book added with status: ${status}`);
   } catch (error) {
-    console.error('Błąd przy dodawaniu książki:', error);
-    alert('Nie udało się dodać książki.');
+    console.error('Error adding book:', error);
+    alert('Could not add book.');
   }
 };

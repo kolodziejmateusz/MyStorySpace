@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="mx-auto w-full xl:w-[80%]">
+      <body className="w-full">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -24,8 +24,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <Navbar />
-            {children}
+            <main className="mx-auto w-full px-4 xl:w-[80%]">
+              <Navbar />
+              {children}
+            </main>
           </AuthProvider>
         </ThemeProvider>
       </body>
