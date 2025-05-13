@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { useState, useEffect } from 'react';
 import { Book } from '@/types/book';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 import { deleteBookFromFirebase } from '@/lib/firebase/deleteBookFromFirebase';
+import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
+import { useAuth } from '@/contexts/AuthProvider';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -29,6 +32,42 @@ export default function BookCard({
   showButtonDelete?: boolean;
   showButtonAdd?: boolean;
 }) {
+  const [currentList, setCurrentList] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const readingLists: ('to-read' | 'reading' | 'read')[] = [
+    'to-read',
+    'reading',
+    'read',
+  ];
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    async function fetchBookStatus() {
+      const status = await getBookStatusFromFirebase(
+        book.id,
+        currentUser?.uid ?? null,
+      );
+      setCurrentList(status);
+    }
+    fetchBookStatus();
+  }, [book.id, currentUser?.uid]);
+
+  const handleListChange = async (newList: 'to-read' | 'reading' | 'read') => {
+    if (currentList === newList) {
+      // Jeśli książka już jest na tej liście, nie rób nic
+      return;
+    }
+
+    await addBookToFirebase(book, newList); // Przeniesienie do nowej listy
+    setCurrentList(newList);
+  };
+
+  const handleDelete = async () => {
+    await deleteBookFromFirebase(book.id);
+    setCurrentList(null);
+    setIsDialogOpen(false); // Zamknięcie modalu po usunięciu książki
+  };
+
   return (
     <div className="flex w-full gap-6 rounded-xl bg-blue-100 p-4 shadow-xl">
       <img
@@ -67,47 +106,36 @@ export default function BookCard({
         </div>
 
         <div className="mt-4 flex justify-end">
-          {/* {showButtonAdd && (
-            <Button onClick={handleAdd} variant="secondary">
-              Add to bookshelf
-            </Button>
-          )} */}
           {showButtonAdd && (
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button>Add to list</Button>
+                  <Button>Your books</Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="flex flex-col">
-                  <Button
-                    variant="secondary"
-                    className="m-1"
-                    onClick={() => addBookToFirebase(book, 'to-read')}
-                  >
-                    To Read
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="m-1"
-                    onClick={() => addBookToFirebase(book, 'reading')}
-                  >
-                    Reading
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="m-1"
-                    onClick={() => addBookToFirebase(book, 'read')}
-                  >
-                    Read
-                  </Button>
+                  {readingLists.map((list) => (
+                    <Button
+                      key={list}
+                      variant="secondary"
+                      className="m-1 flex items-center justify-between"
+                      onClick={() => handleListChange(list)}
+                    >
+                      {list === 'to-read' && 'To Read'}
+                      {list === 'reading' && 'Reading'}
+                      {list === 'read' && 'Read'}
+                      {currentList === list && (
+                        <span className="ml-2 text-green-500">✔</span>
+                      )}
+                    </Button>
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           )}
-          {showButtonDelete && (
+          {showButtonDelete && currentList && (
             <>
-              <AlertDialog>
-                <AlertDialogTrigger>
+              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <AlertDialogTrigger className="ml-2" asChild>
                   <Button variant="destructive">Delete</Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
@@ -121,10 +149,7 @@ export default function BookCard({
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <Button
-                      onClick={() => deleteBookFromFirebase(book.id)}
-                      variant="destructive"
-                    >
+                    <Button onClick={handleDelete} variant="destructive">
                       Delete
                     </Button>
                   </AlertDialogFooter>
