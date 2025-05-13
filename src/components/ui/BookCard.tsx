@@ -33,26 +33,39 @@ export default function BookCard({
   showButtonAdd?: boolean;
 }) {
   const [currentList, setCurrentList] = useState<string | null>(null);
-  const readingLists: ('to-read' | 'reading' | 'read')[] = ['to-read', 'reading', 'read'];
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const readingLists: ('to-read' | 'reading' | 'read')[] = [
+    'to-read',
+    'reading',
+    'read',
+  ];
   const { currentUser } = useAuth();
-
 
   useEffect(() => {
     async function fetchBookStatus() {
-      const status = await getBookStatusFromFirebase(book.id, currentUser?.uid ?? null);
+      const status = await getBookStatusFromFirebase(
+        book.id,
+        currentUser?.uid ?? null,
+      );
       setCurrentList(status);
     }
     fetchBookStatus();
   }, [book.id, currentUser?.uid]);
 
-  const handleListChange = async (newList: "to-read" | "reading" | "read" | null) => {
+  const handleListChange = async (newList: 'to-read' | 'reading' | 'read') => {
     if (currentList === newList) {
-      await addBookToFirebase(book, null); // Remove from list
-      setCurrentList(null);
-    } else {
-      await addBookToFirebase(book, newList); // Move to new list
-      setCurrentList(newList);
+      // Jeśli książka już jest na tej liście, nie rób nic
+      return;
     }
+
+    await addBookToFirebase(book, newList); // Przeniesienie do nowej listy
+    setCurrentList(newList);
+  };
+
+  const handleDelete = async () => {
+    await deleteBookFromFirebase(book.id);
+    setCurrentList(null);
+    setIsDialogOpen(false); // Zamknięcie modalu po usunięciu książki
   };
 
   return (
@@ -97,7 +110,7 @@ export default function BookCard({
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button>Add to list</Button>
+                  <Button>Your books</Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="flex flex-col">
                   {readingLists.map((list) => (
@@ -119,10 +132,10 @@ export default function BookCard({
               </DropdownMenu>
             </div>
           )}
-          {showButtonDelete && (
+          {showButtonDelete && currentList && (
             <>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
+              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <AlertDialogTrigger className="ml-2" asChild>
                   <Button variant="destructive">Delete</Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
@@ -136,10 +149,7 @@ export default function BookCard({
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <Button
-                      onClick={() => deleteBookFromFirebase(book.id)}
-                      variant="destructive"
-                    >
+                    <Button onClick={handleDelete} variant="destructive">
                       Delete
                     </Button>
                   </AlertDialogFooter>

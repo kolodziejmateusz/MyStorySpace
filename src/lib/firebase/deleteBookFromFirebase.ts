@@ -16,7 +16,6 @@ export const deleteBookFromFirebase = async (bookId: string): Promise<void> => {
 
   try {
     await deleteDoc(bookRef);
-    alert('The book has been deleted.');
   } catch (error) {
     console.error('Error deleting book:', error);
     alert('Failed to delete book.');
