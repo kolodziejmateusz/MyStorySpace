@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
+import { useState, useEffect } from 'react';
 import { Book } from '@/types/book';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 import { deleteBookFromFirebase } from '@/lib/firebase/deleteBookFromFirebase';
+import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -29,6 +31,28 @@ export default function BookCard({
   showButtonDelete?: boolean;
   showButtonAdd?: boolean;
 }) {
+  const [currentList, setCurrentList] = useState<string | null>(null);
+  const readingLists: ('to-read' | 'reading' | 'read')[] = ['to-read', 'reading', 'read'];
+
+
+  useEffect(() => {
+    async function fetchBookStatus() {
+      const status = await getBookStatusFromFirebase(book.id);
+      setCurrentList(status);
+    }
+    fetchBookStatus();
+  }, [book.id]);
+
+  const handleListChange = async (newList: "to-read" | "reading" | "read" | null) => {
+    if (currentList === newList) {
+      await addBookToFirebase(book, null); // Remove from list
+      setCurrentList(null);
+    } else {
+      await addBookToFirebase(book, newList); // Move to new list
+      setCurrentList(newList);
+    }
+  };
+
   return (
     <div className="flex w-full gap-6 rounded-xl bg-blue-100 p-4 shadow-xl">
       <img
@@ -67,11 +91,6 @@ export default function BookCard({
         </div>
 
         <div className="mt-4 flex justify-end">
-          {/* {showButtonAdd && (
-            <Button onClick={handleAdd} variant="secondary">
-              Add to bookshelf
-            </Button>
-          )} */}
           {showButtonAdd && (
             <div>
               <DropdownMenu>
@@ -79,27 +98,21 @@ export default function BookCard({
                   <Button>Add to list</Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="flex flex-col">
-                  <Button
-                    variant="secondary"
-                    className="m-1"
-                    onClick={() => addBookToFirebase(book, 'to-read')}
-                  >
-                    To Read
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="m-1"
-                    onClick={() => addBookToFirebase(book, 'reading')}
-                  >
-                    Reading
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="m-1"
-                    onClick={() => addBookToFirebase(book, 'read')}
-                  >
-                    Read
-                  </Button>
+                  {readingLists.map((list) => (
+                    <Button
+                      key={list}
+                      variant="secondary"
+                      className="m-1 flex items-center justify-between"
+                      onClick={() => handleListChange(list)}
+                    >
+                      {list === 'to-read' && 'To Read'}
+                      {list === 'reading' && 'Reading'}
+                      {list === 'read' && 'Read'}
+                      {currentList === list && (
+                        <span className="ml-2 text-green-500">✔</span>
+                      )}
+                    </Button>
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

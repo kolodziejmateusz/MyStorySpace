@@ -1,4 +1,4 @@
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { Book } from '@/types/book';
 
@@ -6,7 +6,7 @@ const db = getFirestore();
 
 export const addBookToFirebase = async (
   book: Book,
-  status: 'to-read' | 'reading' | 'read',
+  status: 'to-read' | 'reading' | 'read' | null,
 ): Promise<void> => {
   const auth = getAuth();
   const user = auth.currentUser;
@@ -17,6 +17,17 @@ export const addBookToFirebase = async (
   }
 
   const bookRef = doc(db, 'users', user.uid, 'books', book.id);
+
+  if (status === null) {
+    try {
+      await deleteDoc(bookRef);
+      alert('Book removed from list.');
+    } catch (error) {
+      console.error('Error removing book:', error);
+      alert('Could not remove book.');
+    }
+    return;
+  }
 
   const bookData = {
     title: book.title,
