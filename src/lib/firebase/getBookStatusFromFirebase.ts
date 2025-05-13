@@ -4,9 +4,13 @@ const db = getFirestore();
 
 export async function getBookStatusFromFirebase(
   bookId: string,
+  userId: string | null,
 ): Promise<'to-read' | 'reading' | 'read' | null> {
   try {
-    const bookRef = doc(db, 'users', 'user-id-placeholder', 'books', bookId); // Replace 'user-id-placeholder' with actual user ID
+    if (!userId) {
+      return null; // User is not logged in
+    }
+    const bookRef = doc(db, 'users', userId, 'books', bookId);
     const bookDoc = await getDoc(bookRef);
 
     if (bookDoc.exists()) {

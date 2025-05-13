@@ -4,6 +4,7 @@ import { Book } from '@/types/book';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 import { deleteBookFromFirebase } from '@/lib/firebase/deleteBookFromFirebase';
 import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
+import { useAuth } from '@/contexts/AuthProvider';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -33,15 +34,16 @@ export default function BookCard({
 }) {
   const [currentList, setCurrentList] = useState<string | null>(null);
   const readingLists: ('to-read' | 'reading' | 'read')[] = ['to-read', 'reading', 'read'];
+  const { currentUser } = useAuth();
 
 
   useEffect(() => {
     async function fetchBookStatus() {
-      const status = await getBookStatusFromFirebase(book.id);
+      const status = await getBookStatusFromFirebase(book.id, currentUser?.uid ?? null);
       setCurrentList(status);
     }
     fetchBookStatus();
-  }, [book.id]);
+  }, [book.id, currentUser?.uid]);
 
   const handleListChange = async (newList: "to-read" | "reading" | "read" | null) => {
     if (currentList === newList) {
