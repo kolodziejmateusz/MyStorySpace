@@ -83,7 +83,10 @@ export default function Page() {
               />
               <span className="ml-3">Remember me</span>
             </label>
-            <a href="#" className="text-sm text-blue-600 hover:underline">
+            <a
+              href="/reset-password"
+              className="text-sm text-blue-600 hover:underline"
+            >
               Forgot password?
             </a>
           </div>
@@ -111,7 +114,7 @@ export default function Page() {
         </button>
 
         <p className="mt-6 text-center text-gray-600">
-          have an account?
+          have an account?{' '}
           <a href="/register" className="text-blue-600 hover:underline">
             Sign up now
           </a>
