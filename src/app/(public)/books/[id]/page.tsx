@@ -11,10 +11,12 @@ import { useAuth } from '@/contexts/AuthProvider';
 import BookListDropdown from '@/components/ui/BookListDropdown';
 import DeleteBookDialog from '@/components/ui/DeleteBookDialog';
 import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
+import { useRouter } from 'next/navigation';
 
 type ReadingList = 'to-read' | 'reading' | 'read';
 
 export default function BookDetails() {
+  const router = useRouter();
   const params = useParams();
   const bookId = params.id as string;
   const { currentUser } = useAuth();
@@ -90,12 +92,12 @@ export default function BookDetails() {
 
   return (
     <div className="container mx-auto py-8">
-      <Link
-        href="/books"
-        className="mb-6 inline-block text-blue-500 hover:underline"
+      <button
+        onClick={() => router.back()}
+        className="mt-4 text-blue-500 hover:underline"
       >
         ← Back to books
-      </Link>
+      </button>
 
       <div className="mt-6 rounded-xl bg-white p-6 shadow-xl">
         <div className="flex flex-col gap-8 md:flex-row">
