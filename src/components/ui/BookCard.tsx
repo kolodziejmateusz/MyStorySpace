@@ -23,15 +23,7 @@ import {
 } from '@/components/shadcn-ui/dropdown-menu';
 import Link from 'next/link';
 
-export default function BookCard({
-  book,
-  showButtonDelete = false,
-  showButtonAdd = false,
-}: {
-  book: Book;
-  showButtonDelete?: boolean;
-  showButtonAdd?: boolean;
-}) {
+export default function BookCard({ book }: { book: Book }) {
   const [currentList, setCurrentList] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const readingLists: ('to-read' | 'reading' | 'read')[] = [
@@ -106,7 +98,7 @@ export default function BookCard({
         </div>
 
         <div className="mt-4 flex justify-end">
-          {showButtonAdd && (
+          {currentUser && (
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -132,7 +124,8 @@ export default function BookCard({
               </DropdownMenu>
             </div>
           )}
-          {showButtonDelete && currentList && (
+
+          {currentList && (
             <>
               <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <AlertDialogTrigger className="ml-2" asChild>
