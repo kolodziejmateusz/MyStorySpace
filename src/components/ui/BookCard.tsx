@@ -2,27 +2,15 @@
 import { useState, useEffect } from 'react';
 import { Book } from '@/types/book';
 import BookListDropdown from '@/components/ui/BookListDropdown';
+import DeleteBookDialog from '@/components/ui/DeleteBookDialog';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
-import { deleteBookFromFirebase } from '@/lib/firebase/deleteBookFromFirebase';
 import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
 import { useAuth } from '@/contexts/AuthProvider';
-import { Button } from '@/components/shadcn-ui/button';
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/shadcn-ui/alert-dialog';
 import Link from 'next/link';
 
 export default function BookCard({ book }: { book: Book }) {
   type ReadingList = 'to-read' | 'reading' | 'read';
   const [currentList, setCurrentList] = useState<ReadingList | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -44,12 +32,6 @@ export default function BookCard({ book }: { book: Book }) {
 
     await addBookToFirebase(book, newList); // Przeniesienie do nowej listy
     setCurrentList(newList);
-  };
-
-  const handleDelete = async () => {
-    await deleteBookFromFirebase(book.id);
-    setCurrentList(null);
-    setIsDialogOpen(false); // Zamknięcie modalu po usunięciu książki
   };
 
   return (
@@ -100,29 +82,10 @@ export default function BookCard({ book }: { book: Book }) {
           )}
 
           {currentList && (
-            <>
-              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <AlertDialogTrigger className="ml-2" asChild>
-                  <Button variant="destructive">Delete</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure you want to delete this book?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <Button onClick={handleDelete} variant="destructive">
-                      Delete
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </>
+            <DeleteBookDialog
+              bookId={book.id}
+              onDeleteSuccess={() => setCurrentList(null)}
+            />
           )}
         </div>
       </div>
