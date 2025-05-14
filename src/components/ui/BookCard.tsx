@@ -1,44 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from 'react';
 import { Book } from '@/types/book';
+import BookListDropdown from '@/components/ui/BookListDropdown';
+import DeleteBookDialog from '@/components/ui/DeleteBookDialog';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
-import { deleteBookFromFirebase } from '@/lib/firebase/deleteBookFromFirebase';
 import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
 import { useAuth } from '@/contexts/AuthProvider';
-import { Button } from '@/components/ui/button';
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 
-export default function BookCard({
-  book,
-  showButtonDelete = false,
-  showButtonAdd = false,
-}: {
-  book: Book;
-  showButtonDelete?: boolean;
-  showButtonAdd?: boolean;
-}) {
-  const [currentList, setCurrentList] = useState<string | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const readingLists: ('to-read' | 'reading' | 'read')[] = [
-    'to-read',
-    'reading',
-    'read',
-  ];
+export default function BookCard({ book }: { book: Book }) {
+  type ReadingList = 'to-read' | 'reading' | 'read';
+  const [currentList, setCurrentList] = useState<ReadingList | null>(null);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -60,12 +32,6 @@ export default function BookCard({
 
     await addBookToFirebase(book, newList); // Przeniesienie do nowej listy
     setCurrentList(newList);
-  };
-
-  const handleDelete = async () => {
-    await deleteBookFromFirebase(book.id);
-    setCurrentList(null);
-    setIsDialogOpen(false); // Zamknięcie modalu po usunięciu książki
   };
 
   return (
@@ -106,56 +72,20 @@ export default function BookCard({
         </div>
 
         <div className="mt-4 flex justify-end">
-          {showButtonAdd && (
+          {currentUser && (
             <div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button>Your books</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="flex flex-col">
-                  {readingLists.map((list) => (
-                    <Button
-                      key={list}
-                      variant="secondary"
-                      className="m-1 flex items-center justify-between"
-                      onClick={() => handleListChange(list)}
-                    >
-                      {list === 'to-read' && 'To Read'}
-                      {list === 'reading' && 'Reading'}
-                      {list === 'read' && 'Read'}
-                      {currentList === list && (
-                        <span className="ml-2 text-green-500">✔</span>
-                      )}
-                    </Button>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <BookListDropdown
+                currentList={currentList}
+                onListChange={handleListChange}
+              />
             </div>
           )}
-          {showButtonDelete && currentList && (
-            <>
-              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <AlertDialogTrigger className="ml-2" asChild>
-                  <Button variant="destructive">Delete</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure you want to delete this book?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <Button onClick={handleDelete} variant="destructive">
-                      Delete
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </>
+
+          {currentList && (
+            <DeleteBookDialog
+              bookId={book.id}
+              onDeleteSuccess={() => setCurrentList(null)}
+            />
           )}
         </div>
       </div>

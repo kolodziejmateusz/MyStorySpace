@@ -33,7 +33,7 @@ export const addBookToFirebase = async (
     title: book.title,
     authors: book.authors,
     publishedDate: book.publishedDate,
-    averageRating: book.averageRating,
+    averageRating: book.averageRating || null,
     categories: book.categories,
     description: book.description,
     thumbnail: book.thumbnail,
