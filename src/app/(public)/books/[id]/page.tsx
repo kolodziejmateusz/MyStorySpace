@@ -5,21 +5,24 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Book } from '@/types/book';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
-import { Button } from '@/components/shadcn-ui/button';
 import { Badge } from '@/components/shadcn-ui/badge';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/shadcn-ui/dropdown-menu';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthProvider';
+import BookListDropdown from '@/components/ui/BookListDropdown';
+import DeleteBookDialog from '@/components/ui/DeleteBookDialog';
+import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
+
+type ReadingList = 'to-read' | 'reading' | 'read';
 
 export default function BookDetails() {
+  const params = useParams();
+  const bookId = params.id as string;
+  const { currentUser } = useAuth();
+
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const params = useParams();
-  const bookId = params.id as string;
+  const [currentList, setCurrentList] = useState<ReadingList | null>(null);
 
   useEffect(() => {
     async function fetchBookDetails() {
@@ -45,6 +48,26 @@ export default function BookDetails() {
       fetchBookDetails();
     }
   }, [bookId]);
+
+  useEffect(() => {
+    async function fetchBookStatus() {
+      if (book && currentUser) {
+        const status = await getBookStatusFromFirebase(
+          book.id,
+          currentUser.uid,
+        );
+        setCurrentList(status);
+      }
+    }
+
+    fetchBookStatus();
+  }, [book, currentUser]);
+
+  const handleListChange = async (newList: ReadingList) => {
+    if (!book || currentList === newList) return;
+    await addBookToFirebase(book, newList);
+    setCurrentList(newList);
+  };
 
   if (loading) {
     return (
@@ -83,36 +106,20 @@ export default function BookDetails() {
               className="h-auto w-48 rounded-md shadow-lg"
             />
 
-            <div className="mt-6 flex w-full flex-col gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="w-full">Add to list</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="flex flex-col">
-                  <Button
-                    variant="secondary"
-                    className="m-1"
-                    onClick={() => addBookToFirebase(book, 'to-read')}
-                  >
-                    To Read
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="m-1"
-                    onClick={() => addBookToFirebase(book, 'reading')}
-                  >
-                    Reading
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="m-1"
-                    onClick={() => addBookToFirebase(book, 'read')}
-                  >
-                    Read
-                  </Button>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+            {currentUser && (
+              <div className="mt-6 flex w-full flex-col items-center gap-2">
+                <BookListDropdown
+                  currentList={currentList}
+                  onListChange={handleListChange}
+                />
+                {currentList && (
+                  <DeleteBookDialog
+                    bookId={book.id}
+                    onDeleteSuccess={() => setCurrentList(null)}
+                  />
+                )}
+              </div>
+            )}
           </div>
 
           {/* Book Details */}
@@ -132,12 +139,10 @@ export default function BookDetails() {
 
             {book.averageRating && (
               <div className="mb-4 flex items-center">
-                <div className="flex items-center">
-                  <span className="mr-1 text-2xl text-yellow-500">★</span>
-                  <span className="text-xl font-semibold text-gray-900">
-                    {book.averageRating.toFixed(1)}
-                  </span>
-                </div>
+                <span className="mr-1 text-2xl text-yellow-500">★</span>
+                <span className="text-xl font-semibold text-gray-900">
+                  {book.averageRating.toFixed(1)}
+                </span>
               </div>
             )}
 
@@ -147,12 +152,6 @@ export default function BookDetails() {
               </h2>
               <div className="mt-2 flex flex-wrap gap-2">
                 {book.categories.map((category, index) => (
-                  // <span
-                  //   key={index}
-                  //   className="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800"
-                  // >
-                  //   {category}
-                  // </span>
                   <Badge key={index}>{category}</Badge>
                 ))}
               </div>
