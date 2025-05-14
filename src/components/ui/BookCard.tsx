@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from 'react';
 import { Book } from '@/types/book';
+import BookListDropdown from '@/components/ui/BookListDropdown';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 import { deleteBookFromFirebase } from '@/lib/firebase/deleteBookFromFirebase';
 import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
@@ -16,21 +17,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/shadcn-ui/alert-dialog';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/shadcn-ui/dropdown-menu';
 import Link from 'next/link';
 
 export default function BookCard({ book }: { book: Book }) {
-  const [currentList, setCurrentList] = useState<string | null>(null);
+  type ReadingList = 'to-read' | 'reading' | 'read';
+  const [currentList, setCurrentList] = useState<ReadingList | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const readingLists: ('to-read' | 'reading' | 'read')[] = [
-    'to-read',
-    'reading',
-    'read',
-  ];
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -100,28 +92,10 @@ export default function BookCard({ book }: { book: Book }) {
         <div className="mt-4 flex justify-end">
           {currentUser && (
             <div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button>Your books</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="flex flex-col">
-                  {readingLists.map((list) => (
-                    <Button
-                      key={list}
-                      variant="secondary"
-                      className="m-1 flex items-center justify-between"
-                      onClick={() => handleListChange(list)}
-                    >
-                      {list === 'to-read' && 'To Read'}
-                      {list === 'reading' && 'Reading'}
-                      {list === 'read' && 'Read'}
-                      {currentList === list && (
-                        <span className="ml-2 text-green-500">✔</span>
-                      )}
-                    </Button>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <BookListDropdown
+                currentList={currentList}
+                onListChange={handleListChange}
+              />
             </div>
           )}
 
