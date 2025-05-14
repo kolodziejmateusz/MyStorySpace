@@ -9,13 +9,13 @@ import {
   MenubarMenu,
   MenubarSeparator,
   MenubarTrigger,
-} from '@/components/ui/menubar';
+} from '@/components/shadcn-ui/menubar';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthProvider';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase/firebase';
-import { Button } from '../ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '../shadcn-ui/button';
+import { Badge } from '@/components/shadcn-ui/badge';
 
 export default function Navbar() {
   const router = useRouter();

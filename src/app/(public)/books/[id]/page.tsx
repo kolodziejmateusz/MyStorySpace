@@ -5,13 +5,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Book } from '@/types/book';
 import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/shadcn-ui/button';
+import { Badge } from '@/components/shadcn-ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/shadcn-ui/dropdown-menu';
 import Link from 'next/link';
 
 export default function BookDetails() {
@@ -153,8 +153,7 @@ export default function BookDetails() {
                   // >
                   //   {category}
                   // </span>
-                          <Badge key={index} >{category}</Badge>
-
+                  <Badge key={index}>{category}</Badge>
                 ))}
               </div>
             </div>

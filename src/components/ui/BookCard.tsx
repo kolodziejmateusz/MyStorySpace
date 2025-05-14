@@ -5,7 +5,7 @@ import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 import { deleteBookFromFirebase } from '@/lib/firebase/deleteBookFromFirebase';
 import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
 import { useAuth } from '@/contexts/AuthProvider';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcn-ui/button';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -15,12 +15,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from '@/components/shadcn-ui/alert-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/shadcn-ui/dropdown-menu';
 import Link from 'next/link';
 
 export default function BookCard({
