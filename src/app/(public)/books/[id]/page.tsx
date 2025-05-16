@@ -27,6 +27,9 @@ export default function BookDetails() {
   const [error, setError] = useState<string | null>(null);
   const [currentList, setCurrentList] = useState<ReadingList | null>(null);
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
   useEffect(() => {
     async function fetchBookDetails() {
       setLoading(true);
@@ -121,6 +124,44 @@ export default function BookDetails() {
                     onDeleteSuccess={() => setCurrentList(null)}
                   />
                 )}
+              </div>
+            )}
+
+            {currentList === 'reading' && (
+              <div className="mt-4 flex flex-col items-start gap-2">
+                <label className="text-sm text-gray-700">Current Page</label>
+                <input
+                  type="number"
+                  min={0}
+                  value={currentPage}
+                  onChange={(e) => setCurrentPage(Number(e.target.value))}
+                  className="w-full rounded-md border px-2 py-1 text-sm shadow-sm"
+                />
+
+                <label className="mt-2 text-sm text-gray-700">
+                  Total Pages
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  value={totalPages}
+                  onChange={(e) => setTotalPages(Number(e.target.value))}
+                  className="w-full rounded-md border px-2 py-1 text-sm shadow-sm"
+                />
+
+                <button
+                  onClick={() =>
+                    addBookToFirebase(
+                      book,
+                      currentList,
+                      currentPage,
+                      totalPages,
+                    )
+                  }
+                  className="mt-2 rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                >
+                  Save Progress
+                </button>
               </div>
             )}
           </div>
