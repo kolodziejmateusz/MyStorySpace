@@ -12,6 +12,7 @@ import BookListDropdown from '@/components/ui/BookListDropdown';
 import DeleteBookDialog from '@/components/ui/DeleteBookDialog';
 import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
 import { useRouter } from 'next/navigation';
+import BookRating from '@/components/layout/BookRating';
 
 type ReadingList = 'to-read' | 'reading' | 'read';
 
@@ -171,6 +172,7 @@ export default function BookDetails() {
           </div>
         </div>
       </div>
+      <BookRating bookId={book.id} />
     </div>
   );
 }
