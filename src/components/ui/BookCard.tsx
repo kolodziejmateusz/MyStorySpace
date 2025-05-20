@@ -7,6 +7,7 @@ import { addBookToFirebase } from '@/lib/firebase/addBookToFirebase';
 import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFirebase';
 import { useAuth } from '@/contexts/AuthProvider';
 import Link from 'next/link';
+import BookRatingBadge from './BookRatingBadge';
 
 export default function BookCard({ book }: { book: Book }) {
   type ReadingList = 'to-read' | 'reading' | 'read';
@@ -53,14 +54,10 @@ export default function BookCard({ book }: { book: Book }) {
             {book.authors.join(' / ')} &nbsp;•&nbsp; {book.publishedDate}
           </p>
 
-          {book.averageRating && (
-            <div className="mt-2 flex items-center">
-              <span className="mr-1 text-xl text-yellow-500">★</span>
-              <span className="text-lg font-semibold text-gray-900">
-                {book.averageRating.toFixed(1)}
-              </span>
-            </div>
-          )}
+          <BookRatingBadge
+            bookId={book.id}
+            apiRating={book.averageRating ?? undefined}
+          />
 
           <div className="mt-3 text-sm text-gray-700">
             <p>

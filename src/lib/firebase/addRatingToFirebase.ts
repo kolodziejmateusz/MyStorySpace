@@ -12,7 +12,6 @@ import {
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-
 export interface BookRatingData {
   rating: number;
   review?: string;
@@ -34,14 +33,12 @@ export const addRatingToFirebase = async (
     throw new Error('Musisz być zalogowany, aby ocenić książkę');
   }
 
-
   if (rating < 1 || rating > 5) {
     throw new Error('Ocena musi być w zakresie od 1 do 5');
   }
 
   const db = getFirestore();
 
- 
   const bookDocRef = doc(db, 'books', bookId);
   try {
     await setDoc(bookDocRef, { id: bookId }, { merge: true });

@@ -16,6 +16,7 @@ import BookRating from '@/components/layout/BookRating';
 import CurrentBookProgressDialog from '@/components/ui/CurrentBookProgressDialog';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import BookReadingProgress from '@/components/ui/BookReadingProgress';
+import BookRatingBadge from '@/components/ui/BookRatingBadge'; // Zaimportuj nowy komponent
 
 type ReadingList = 'to-read' | 'reading' | 'read';
 
@@ -194,14 +195,11 @@ export default function BookDetails() {
               </p>
             </div>
 
-            {book.averageRating && (
-              <div className="mb-4 flex items-center">
-                <span className="mr-1 text-2xl text-yellow-500">★</span>
-                <span className="text-xl font-semibold text-gray-900">
-                  {book.averageRating.toFixed(1)}
-                </span>
-              </div>
-            )}
+            {/* Używamy nowego komponentu do wyświetlania ocen */}
+            <BookRatingBadge
+              bookId={book.id}
+              apiRating={book.averageRating ?? undefined}
+            />
 
             <div className="mb-4">
               <h2 className="text-xl font-semibold text-gray-900">
