@@ -15,11 +15,11 @@ import { useRouter } from 'next/navigation';
 import BookRating from '@/components/layout/BookRating';
 import CurrentBookProgressDialog from '@/components/ui/CurrentBookProgressDialog';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import BookReadingProgress from '@/components/ui/BookReadingProgress';
 
 type ReadingList = 'to-read' | 'reading' | 'read';
 
 const db = getFirestore();
-
 
 export default function BookDetails() {
   const router = useRouter();
@@ -148,15 +148,30 @@ export default function BookDetails() {
                 )}
 
                 {currentList === 'reading' && (
-                  <CurrentBookProgressDialog
-                    book={book}
-                    currentList={currentList}
-                    initialCurrentPage={currentPage}
-                    initialTotalPages={totalPages}
-                    onProgressUpdate={(newCurrentPage, newTotalPages) => {
-                      setCurrentPage(newCurrentPage);
-                      setTotalPages(newTotalPages);
-                    }}
+                  <div>
+                    <BookReadingProgress
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      className="my-8"
+                    />
+                    <CurrentBookProgressDialog
+                      book={book}
+                      currentList={currentList}
+                      initialCurrentPage={currentPage}
+                      initialTotalPages={totalPages}
+                      onProgressUpdate={(newCurrentPage, newTotalPages) => {
+                        setCurrentPage(newCurrentPage);
+                        setTotalPages(newTotalPages);
+                      }}
+                    />
+                  </div>
+                )}
+
+                {currentList === 'read' && (
+                  <BookReadingProgress
+                    currentPage={totalPages}
+                    totalPages={totalPages}
+                    className="my-8"
                   />
                 )}
               </div>
