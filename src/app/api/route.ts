@@ -11,23 +11,46 @@ export async function GET() {
         const bookId = bookDoc.id;
         const bookData = bookDoc.data();
 
-        const ratingsSnapshot = await getDocs(collection(db, 'books', bookId, 'ratings'));
-        const ratings = ratingsSnapshot.docs.map(ratingDoc => ({
+        const ratingsSnapshot = await getDocs(
+          collection(db, 'books', bookId, 'ratings'),
+        );
+        const ratings = ratingsSnapshot.docs.map((ratingDoc) => ({
           id: ratingDoc.id,
-          ...ratingDoc.data()
+          ...ratingDoc.data(),
         }));
+
+        // Oblicz średnią ocenę i liczbę ocen
+        const ratingsCount = ratings.length;
+        const averageRating =
+          ratingsCount > 0
+            ? ratings.reduce((sum, r) => sum + (r.rating || 0), 0) /
+              ratingsCount
+            : 0;
 
         return {
           id: bookId,
           ...bookData,
-          ratings
+          ratings,
+          ratingsCount,
+          averageRating,
         };
-      })
+      }),
     );
 
-    return NextResponse.json(booksWithRatings);
+    // Sortowanie: najpierw po średniej ocen malejąco, potem po liczbie ocen malejąco
+    const sortedBooks = booksWithRatings.sort((a, b) => {
+      if (b.averageRating !== a.averageRating) {
+        return b.averageRating - a.averageRating;
+      }
+      return b.ratingsCount - a.ratingsCount;
+    });
+
+    return NextResponse.json(sortedBooks);
   } catch (error) {
     console.error('Błąd API:', error);
-    return NextResponse.json({ error: 'Wystąpił błąd serwera' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Wystąpił błąd serwera' },
+      { status: 500 },
+    );
   }
 }
