@@ -14,10 +14,13 @@ export async function GET() {
         const ratingsSnapshot = await getDocs(
           collection(db, 'books', bookId, 'ratings'),
         );
-        const ratings = ratingsSnapshot.docs.map((ratingDoc) => ({
-          id: ratingDoc.id,
-          ...ratingDoc.data(),
-        }));
+        const ratings = ratingsSnapshot.docs.map((ratingDoc) => {
+          const data = ratingDoc.data() as { rating?: number };
+          return {
+            id: ratingDoc.id,
+            ...data,
+          };
+        });
 
         // Oblicz średnią ocenę i liczbę ocen
         const ratingsCount = ratings.length;
