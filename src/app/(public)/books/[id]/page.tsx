@@ -14,7 +14,12 @@ import { getBookStatusFromFirebase } from '@/lib/firebase/getBookStatusFromFireb
 import { useRouter } from 'next/navigation';
 import BookRating from '@/components/layout/BookRating';
 import CurrentBookProgressDialog from '@/components/ui/CurrentBookProgressDialog';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+
 type ReadingList = 'to-read' | 'reading' | 'read';
+
+const db = getFirestore();
+
 
 export default function BookDetails() {
   const router = useRouter();
@@ -27,8 +32,8 @@ export default function BookDetails() {
   const [error, setError] = useState<string | null>(null);
   const [currentList, setCurrentList] = useState<ReadingList | null>(null);
 
-  const [currentPage] = useState(0);
-  const [totalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     async function fetchBookDetails() {
@@ -58,11 +63,28 @@ export default function BookDetails() {
   useEffect(() => {
     async function fetchBookStatus() {
       if (book && currentUser) {
-        const status = await getBookStatusFromFirebase(
-          book.id,
-          currentUser.uid,
-        );
-        setCurrentList(status);
+        try {
+          // Get the book status (to-read, reading, read)
+          const status = await getBookStatusFromFirebase(
+            book.id,
+            currentUser.uid,
+          );
+          setCurrentList(status);
+
+          // Also fetch reading progress if available
+          if (status === 'reading') {
+            const bookRef = doc(db, 'users', currentUser.uid, 'books', book.id);
+            const bookDoc = await getDoc(bookRef);
+
+            if (bookDoc.exists()) {
+              const bookData = bookDoc.data();
+              if (bookData.currentPage) setCurrentPage(bookData.currentPage);
+              if (bookData.totalPages) setTotalPages(bookData.totalPages);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching book status:', error);
+        }
       }
     }
 
@@ -131,6 +153,10 @@ export default function BookDetails() {
                     currentList={currentList}
                     initialCurrentPage={currentPage}
                     initialTotalPages={totalPages}
+                    onProgressUpdate={(newCurrentPage, newTotalPages) => {
+                      setCurrentPage(newCurrentPage);
+                      setTotalPages(newTotalPages);
+                    }}
                   />
                 )}
               </div>
