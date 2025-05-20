@@ -7,6 +7,7 @@ interface BookReadingProgressProps {
   totalPages: number;
   className?: string;
   showDetails?: boolean;
+  isCompleted?: boolean; // Nowa właściwość określająca czy książka została przeczytana
 }
 
 export default function BookReadingProgress({
@@ -14,17 +15,24 @@ export default function BookReadingProgress({
   totalPages,
   className = '',
   showDetails = true,
+  isCompleted = false,
 }: BookReadingProgressProps) {
   const progressPercentage = useMemo(() => {
+    // Jeśli książka jest ukończona, zwróć 100%
+    if (isCompleted) return 100;
+
     if (totalPages <= 0 || currentPage <= 0) return 0;
     const percentage = Math.min(
       100,
       Math.round((currentPage / totalPages) * 100),
     );
     return percentage;
-  }, [currentPage, totalPages]);
+  }, [currentPage, totalPages, isCompleted]);
 
-  if (totalPages <= 0) {
+  const displayTotalPages = totalPages > 0 ? totalPages : isCompleted ? 100 : 0;
+  const displayCurrentPage = isCompleted ? displayTotalPages : currentPage;
+
+  if (displayTotalPages <= 0 && !isCompleted) {
     return null;
   }
 
@@ -43,11 +51,11 @@ export default function BookReadingProgress({
           <div className="flex items-center gap-1.5">
             <span className="font-medium">Page</span>
             <span className="rounded-md bg-gray-100 px-2 py-0.5 font-medium">
-              {currentPage}
+              {displayCurrentPage}
             </span>
             <span>of</span>
             <span className="rounded-md bg-gray-100 px-2 py-0.5 font-medium">
-              {totalPages}
+              {displayTotalPages}
             </span>
           </div>
           <div className="font-medium text-blue-600">

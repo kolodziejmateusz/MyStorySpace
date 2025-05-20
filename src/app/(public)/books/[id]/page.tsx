@@ -172,6 +172,7 @@ export default function BookDetails() {
                     currentPage={totalPages}
                     totalPages={totalPages}
                     className="my-8"
+                    isCompleted={currentList === 'read'}
                   />
                 )}
               </div>
