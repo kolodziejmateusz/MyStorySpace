@@ -3,10 +3,11 @@ import { Book } from '@/types/book';
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const bookId = params.id;
+    // Await params before accessing properties
+    const { id: bookId } = await params;
 
     const response = await fetch(
       `https://www.googleapis.com/books/v1/volumes/${bookId}`,
@@ -29,7 +30,8 @@ export async function GET(
       description: volumeInfo.description
         ? `<p>${volumeInfo.description}</p>`
         : '<p>No description available.</p>',
-      thumbnail: volumeInfo.imageLinks?.thumbnail || '/book-covers/default-cover.svg',
+      thumbnail:
+        volumeInfo.imageLinks?.thumbnail || '/book-covers/default-cover.svg',
     };
 
     return NextResponse.json({ book }, { status: 200 });
