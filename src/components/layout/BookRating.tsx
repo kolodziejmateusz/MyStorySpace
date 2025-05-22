@@ -8,14 +8,25 @@ import {
   getBookAverageRating,
   getAllBookRatings,
   BookRatingData,
+  BookData,
 } from '@/lib/firebase/addRatingToFirebase';
 import { Button } from '@/components/shadcn-ui/button';
 
 interface BookRatingProps {
   bookId: string;
+  bookData?: {
+    id: string;
+    title: string;
+    authors: string[];
+    publishedDate: string;
+    averageRating: number | null;
+    categories: string[];
+    description: string;
+    thumbnail: string;
+  };
 }
 
-export default function BookRating({ bookId }: BookRatingProps) {
+export default function BookRating({ bookId, bookData }: BookRatingProps) {
   const { currentUser } = useAuth();
   const [userRating, setUserRating] = useState<BookRatingData | null>(null);
   const [userReview, setUserReview] = useState<string>('');
@@ -88,7 +99,26 @@ export default function BookRating({ bookId }: BookRatingProps) {
 
     try {
       console.log('Próba dodania oceny:', rating, 'dla książki:', bookId);
-      await addRatingToFirebase(bookId, rating, userReview || undefined);
+
+      const bookDataToSave: BookData | undefined = bookData
+        ? {
+            id: bookData.id,
+            title: bookData.title,
+            authors: bookData.authors,
+            publishedDate: bookData.publishedDate,
+            averageRating: bookData.averageRating,
+            categories: bookData.categories,
+            description: bookData.description,
+            thumbnail: bookData.thumbnail,
+          }
+        : undefined;
+
+      await addRatingToFirebase(
+        bookId,
+        rating,
+        userReview || undefined,
+        bookDataToSave,
+      );
 
       console.log('Ocena dodana pomyślnie');
 
