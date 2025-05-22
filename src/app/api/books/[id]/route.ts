@@ -25,7 +25,7 @@ export async function GET(
       title: volumeInfo.title || 'No title available',
       authors: volumeInfo.authors || ['Unknown author'],
       publishedDate: volumeInfo.publishedDate || 'Unknown date',
-      averageRating: volumeInfo.averageRating,
+      averageRating: volumeInfo.averageRating || null,
       categories: volumeInfo.categories || ['Uncategorized'],
       description: volumeInfo.description
         ? `<p>${volumeInfo.description}</p>`
