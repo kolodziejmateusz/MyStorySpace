@@ -21,10 +21,22 @@ export interface BookRatingData {
   userName?: string;
 }
 
+export interface BookData {
+  id: string;
+  title: string;
+  authors: string[];
+  publishedDate: string;
+  averageRating: number | null;
+  categories: string[];
+  description: string;
+  thumbnail: string;
+}
+
 export const addRatingToFirebase = async (
   bookId: string,
   rating: number,
   review?: string,
+  bookData?: BookData,
 ): Promise<void> => {
   const auth = getAuth();
   const user = auth.currentUser;
@@ -40,8 +52,35 @@ export const addRatingToFirebase = async (
   const db = getFirestore();
 
   const bookDocRef = doc(db, 'books', bookId);
+
   try {
-    await setDoc(bookDocRef, { id: bookId }, { merge: true });
+    if (bookData) {
+      await setDoc(
+        bookDocRef,
+        {
+          id: bookData.id,
+          title: bookData.title,
+          authors: bookData.authors,
+          publishedDate: bookData.publishedDate,
+          averageRating: bookData.averageRating,
+          categories: bookData.categories,
+          description: bookData.description,
+          thumbnail: bookData.thumbnail,
+
+          lastUpdated: Timestamp.now(),
+        },
+        { merge: true },
+      );
+    } else {
+      await setDoc(
+        bookDocRef,
+        {
+          id: bookId,
+          lastUpdated: Timestamp.now(),
+        },
+        { merge: true },
+      );
+    }
   } catch (error) {
     console.error('Błąd podczas tworzenia dokumentu książki:', error);
   }
@@ -128,13 +167,6 @@ export const getBookAverageRating = async (
   }
 };
 
-/**
- * Pobiera wszystkie oceny książki
- *
- * @param bookId - ID książki
- * @param limit - Maksymalna liczba ocen do pobrania (domyślnie 50)
- * @returns Promise<BookRatingData[]>
- */
 export const getAllBookRatings = async (
   bookId: string,
   limitCount: number = 50,
@@ -167,5 +199,36 @@ export const getAllBookRatings = async (
   } catch (error) {
     console.error('Błąd podczas pobierania ocen:', error);
     return [];
+  }
+};
+
+// Dodaj funkcję pomocniczą do pobierania pełnych danych książki z Firebase
+export const getBookFromFirebase = async (
+  bookId: string,
+): Promise<BookData | null> => {
+  const db = getFirestore();
+  const bookRef = doc(db, 'books', bookId);
+
+  try {
+    const bookDoc = await getDoc(bookRef);
+
+    if (bookDoc.exists()) {
+      const data = bookDoc.data();
+      return {
+        id: data.id,
+        title: data.title || 'Nieznany tytuł',
+        authors: data.authors || [],
+        publishedDate: data.publishedDate || 'Nieznana data',
+        averageRating: data.averageRating || null,
+        categories: data.categories || [],
+        description: data.description || '',
+        thumbnail: data.thumbnail || '',
+      } as BookData;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('Błąd podczas pobierania książki z Firebase:', error);
+    return null;
   }
 };

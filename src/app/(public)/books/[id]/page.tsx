@@ -224,7 +224,19 @@ export default function BookDetails() {
           </div>
         </div>
       </div>
-      <BookRating bookId={book.id} />
+      <BookRating
+        bookId={book.id}
+        bookData={{
+          id: book.id,
+          title: book.title,
+          authors: book.authors,
+          publishedDate: book.publishedDate,
+          averageRating: book.averageRating,
+          categories: book.categories,
+          description: book.description,
+          thumbnail: book.thumbnail,
+        }}
+      />
     </div>
   );
 }

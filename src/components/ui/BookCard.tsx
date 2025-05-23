@@ -60,10 +60,7 @@ export default function BookCard({ book }: { book: Book }) {
           />
 
           <div className="mt-3 text-sm text-gray-700">
-            <p>
-              <span className="font-semibold text-gray-500">Genre: </span>
-              {book.categories.join(' / ')}
-            </p>
+            
             <p className="mt-2 line-clamp-3">{book.description}</p>
           </div>
         </div>

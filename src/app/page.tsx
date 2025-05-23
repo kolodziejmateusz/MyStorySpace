@@ -8,7 +8,6 @@ export default function BooksList() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     async function fetchBooks() {
       setLoading(true);
@@ -17,7 +16,7 @@ export default function BooksList() {
 
         const res = await fetch(apiUrl);
         const data = await res.json();
-        setBooks(data.books);
+        setBooks(data);
       } catch (error) {
         console.error('Error fetching books:', error);
       } finally {
@@ -26,11 +25,10 @@ export default function BooksList() {
     }
 
     fetchBooks();
-  }, []); 
+  }, []);
 
   return (
     <div className="container mx-auto py-8">
-
       {loading ? (
         <div className="flex justify-center">
           <p>Loading results...</p>
