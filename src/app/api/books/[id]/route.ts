@@ -28,8 +28,8 @@ export async function GET(
       averageRating: volumeInfo.averageRating || null,
       categories: volumeInfo.categories || ['Uncategorized'],
       description: volumeInfo.description
-        ? `<p>${volumeInfo.description}</p>`
-        : '<p>No description available.</p>',
+        ? volumeInfo.description
+        : 'No description available.',
       thumbnail:
         volumeInfo.imageLinks?.thumbnail || '/book-covers/default-cover.svg',
     };
