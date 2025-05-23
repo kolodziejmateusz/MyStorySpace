@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
       averageRating:
         typeof item.ratings_average === 'number' ? item.ratings_average : null,
       categories: Array.isArray(item.subject) ? item.subject.slice(0, 5) : [], // Ograniczamy do 5 kategorii
-      description: '', // Open Library Search API nie zwraca opisu w wynikach wyszukiwania
+      description: null, // Open Library Search API nie zwraca opisu w wynikach wyszukiwania
       thumbnail:
         typeof item.cover_i === 'number'
           ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`

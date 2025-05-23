@@ -37,14 +37,13 @@ export const addBookToFirebase = async (
     return;
   }
 
-  // Define a type for the existing book data
+  // Get existing data if any
   type ExistingBookData = {
     currentPage?: number;
     totalPages?: number;
     [key: string]: unknown;
   };
 
-  // Get existing data if any
   let existingData: ExistingBookData = {};
   try {
     const existingDoc = await getDoc(bookRef);
@@ -55,13 +54,31 @@ export const addBookToFirebase = async (
     console.error('Error fetching existing book data:', error);
   }
 
+  // Jeśli description jest null, pobierz z backendu
+  let description = book.description;
+  if (!description) {
+    try {
+      const res = await fetch(`/api/books/${book.id}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.book?.description) {
+          description = data.book.description;
+        }
+      } else {
+        console.warn(`Fallback fetch failed for book ID ${book.id}`);
+      }
+    } catch (err) {
+      console.error('Error fetching book description:', err);
+    }
+  }
+
   const bookData = {
     title: book.title,
     authors: book.authors,
     publishedDate: book.publishedDate,
     averageRating: book.averageRating || null,
     categories: book.categories,
-    description: book.description,
+    description: description || 'No description available.',
     thumbnail: book.thumbnail,
     addedAt: new Date(),
     status: status,
