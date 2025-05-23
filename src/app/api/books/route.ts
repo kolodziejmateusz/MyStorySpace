@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-type GoogleBook = {
-  id: string;
-  volumeInfo: {
-    title: string;
-    authors?: string[];
-    publishedDate?: string;
-    averageRating?: number;
-    categories?: string[];
-    description?: string;
-    imageLinks?: {
-      thumbnail?: string;
-    };
-  };
+type OpenLibrarySearchResult = {
+  key: string;
+  title: string;
+  author_name?: string[];
+  first_publish_year?: number;
+  isbn?: string[];
+  subject?: string[];
+  cover_i?: number;
+  ratings_average?: number;
+};
+
+type OpenLibraryResponse = {
+  docs: OpenLibrarySearchResult[];
+  numFound: number;
 };
 
 export async function GET(request: NextRequest) {
@@ -22,35 +23,39 @@ export async function GET(request: NextRequest) {
     const query = searchParams.get('q') || 'Harry Potter'; // Domyślnie 'Harry Potter' jeśli nie podano
 
     // Zapytanie po tytule
-    const titleUrl = `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(query)}&maxResults=30`;
+    const titleUrl = `https://openlibrary.org/search.json?title=${encodeURIComponent(query)}&limit=30`;
     const titleRes = await fetch(titleUrl);
-    const titleData = await titleRes.json();
+    const titleData: OpenLibraryResponse = await titleRes.json();
 
     // Zapytanie po autorze
-    const authorUrl = `https://www.googleapis.com/books/v1/volumes?q=inauthor:${encodeURIComponent(query)}&maxResults=30`;
+    const authorUrl = `https://openlibrary.org/search.json?author=${encodeURIComponent(query)}&limit=30`;
     const authorRes = await fetch(authorUrl);
-    const authorData = await authorRes.json();
+    const authorData: OpenLibraryResponse = await authorRes.json();
 
-    // Połączenie wyników i usunięcie duplikatów na podstawie ID
-    const allItems = [...(titleData.items || []), ...(authorData.items || [])];
+    // Połączenie wyników i usunięcie duplikatów na podstawie key
+    const allItems = [...(titleData.docs || []), ...(authorData.docs || [])];
 
-    // Tworzymy Map, gdzie kluczem jest item.id, co pozwala na unikalność wyników
+    // Tworzymy Map, gdzie kluczem jest item.key, co pozwala na unikalność wyników
     const uniqueItems = Array.from(
-      new Map(allItems.map((item) => [item.id, item])).values(),
+      new Map(allItems.map((item) => [item.key, item])).values(),
     );
 
-    // Przetworzenie danych do odpowiedniego formatu
-    const books = uniqueItems.map((item: GoogleBook) => ({
-      id: item.id,
-      title: item.volumeInfo.title,
-      authors: item.volumeInfo.authors || [],
-      publishedDate: item.volumeInfo.publishedDate || 'Brak daty',
-      averageRating: item.volumeInfo.averageRating || null,
-      categories: item.volumeInfo.categories || [],
-      description: item.volumeInfo.description || '',
+    // Przetworzenie danych do odpowiedniego formatu (zgodnego z poprzednim API)
+    const books = uniqueItems.map((item: OpenLibrarySearchResult) => ({
+      id: item.key ? item.key.replace('/works/', '') : '', // Usuwamy prefix '/works/' z klucza
+      title: item.title || 'No title available',
+      authors: Array.isArray(item.author_name) ? item.author_name : [],
+      publishedDate: item.first_publish_year
+        ? item.first_publish_year.toString()
+        : 'Brak daty',
+      averageRating:
+        typeof item.ratings_average === 'number' ? item.ratings_average : null,
+      categories: Array.isArray(item.subject) ? item.subject.slice(0, 5) : [], // Ograniczamy do 5 kategorii
+      description: '', // Open Library Search API nie zwraca opisu w wynikach wyszukiwania
       thumbnail:
-        item.volumeInfo.imageLinks?.thumbnail ||
-        '/book-covers/default-cover.svg',
+        typeof item.cover_i === 'number'
+          ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`
+          : '/book-covers/default-cover.svg',
     }));
 
     return NextResponse.json({ books });
