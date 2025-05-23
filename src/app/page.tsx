@@ -34,11 +34,14 @@ export default function BooksList() {
           <p>Loading results...</p>
         </div>
       ) : books.length > 0 ? (
-        <div className="my-4 grid gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">
-          {books.map((book, index) => (
-            <BookCard key={index} book={book} />
-          ))}
-        </div>
+        <>
+          <h1 className="mb-8 text-3xl font-bold">Top Rated Books</h1>
+          <div className="my-4 grid gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">
+            {books.map((book, index) => (
+              <BookCard key={index} book={book} />
+            ))}
+          </div>
+        </>
       ) : (
         <div className="flex justify-center">
           <p>No books found that match your query.</p>

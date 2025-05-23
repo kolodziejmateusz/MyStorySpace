@@ -50,7 +50,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
             setUserReview(rating.review);
           }
         } catch (err) {
-          console.error('Błąd podczas pobierania oceny:', err);
+          console.error('Error fetching user rating:', err);
         }
       }
     }
@@ -64,7 +64,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
             setRatingCount(ratingData.count);
           }
         } catch (err) {
-          console.error('Błąd podczas pobierania średniej oceny:', err);
+          console.error('Error fetching average rating:', err);
         }
       }
     }
@@ -76,7 +76,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
           const ratings = await getAllBookRatings(bookId);
           setAllRatings(ratings);
         } catch (err) {
-          console.error('Błąd podczas pobierania wszystkich ocen:', err);
+          console.error('Error fetching all ratings:', err);
         } finally {
           setIsLoadingRatings(false);
         }
@@ -90,7 +90,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
 
   const handleRatingSubmit = async (rating: number) => {
     if (!currentUser) {
-      setError('Musisz być zalogowany, aby ocenić książkę');
+      setError('You must be logged in to rate this book');
       return;
     }
 
@@ -98,7 +98,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
     setError(null);
 
     try {
-      console.log('Próba dodania oceny:', rating, 'dla książki:', bookId);
+      console.log('Attempting to submit rating:', rating, 'for book:', bookId);
 
       const bookDataToSave: BookData | undefined = bookData
         ? {
@@ -120,12 +120,12 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
         bookDataToSave,
       );
 
-      console.log('Ocena dodana pomyślnie');
+      console.log('Rating added successfully');
 
       const updatedUserRating = await getUserRatingFromFirebase(bookId);
       setUserRating(updatedUserRating);
 
-      setSuccess('Ocena została zapisana!');
+      setSuccess('Your rating has been saved!');
       setShowReviewForm(false);
 
       const ratingData = await getBookAverageRating(bookId);
@@ -137,17 +137,16 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
       const allRatings = await getAllBookRatings(bookId);
       setAllRatings(allRatings);
 
-      // Ukryj komunikat sukcesu po 3 sekundach
       setTimeout(() => {
         setSuccess(null);
       }, 3000);
     } catch (err) {
-      console.error('Błąd podczas dodawania oceny:', err);
+      console.error('Error submitting rating:', err);
       if (err instanceof Error) {
         setError(err.message);
       } else {
         setError(
-          'Wystąpił błąd podczas zapisywania oceny. Sprawdź konsolę deweloperską.',
+          'An error occurred while saving your rating. Check the developer console for details.',
         );
       }
     } finally {
@@ -160,7 +159,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
     if (!timestamp) return '';
 
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    return date.toLocaleDateString('pl-PL', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -214,7 +213,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
     try {
       await handleRatingSubmit(userRating.rating);
     } catch (err) {
-      console.error('Błąd podczas zapisywania recenzji:', err);
+      console.error('Error saving review:', err);
     }
   };
 
@@ -222,18 +221,16 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
 
   return (
     <div className="mt-8 rounded-xl bg-white p-6 shadow-xl">
-      <h2 className="mb-4 text-2xl font-bold">Oceny książki</h2>
+      <h2 className="mb-4 text-2xl font-bold">Book Ratings</h2>
 
       {averageRating !== null && (
         <div className="mb-6">
           <div className="flex items-center">
-            <span className="mr-2 text-xl font-semibold">Średnia ocena:</span>
+            <span className="mr-2 text-xl font-semibold">Average rating:</span>
             <span className="mr-1 text-2xl text-yellow-500">★</span>
             <span className="text-xl font-semibold">{averageRating}</span>
             <span className="ml-2 text-sm text-gray-500">
-              ({ratingCount}{' '}
-              {ratingCount === 1 ? 'ocena' : ratingCount < 5 ? 'oceny' : 'ocen'}
-              )
+              ({ratingCount} {ratingCount === 1 ? 'rating' : 'ratings'})
             </span>
           </div>
         </div>
@@ -242,7 +239,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
       {currentUser ? (
         <div className="mb-8">
           <h3 className="mb-2 text-lg font-semibold">
-            {userRating ? 'Twoja ocena:' : 'Oceń tę książkę:'}
+            {userRating ? 'Your rating:' : 'Rate this book:'}
           </h3>
 
           <div className="flex items-center">
@@ -254,7 +251,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
                 onClick={() => setShowReviewForm(true)}
                 className="ml-2 px-2"
               >
-                {userRating.review ? 'Edytuj recenzję' : 'Dodaj recenzję'}
+                {userRating.review ? 'Edit review' : 'Add review'}
               </Button>
             )}
           </div>
@@ -262,7 +259,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
           {userRating?.review && !showReviewForm && (
             <div className="mt-4 rounded-md bg-gray-50 p-4">
               <p className="text-sm text-gray-500">
-                Twoja recenzja z dnia {formatDate(userRating.ratedAt)}:
+                Your review from {formatDate(userRating.ratedAt)}:
               </p>
               <p className="mt-2 whitespace-pre-wrap text-gray-700">
                 {userRating.review}
@@ -275,30 +272,26 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
               <textarea
                 value={userReview}
                 onChange={(e) => setUserReview(e.target.value)}
-                placeholder="Napisz swoją recenzję tej książki..."
+                placeholder="Write your review of this book..."
                 className="w-full rounded-md border border-gray-300 p-3 focus:border-blue-500 focus:outline-none"
                 rows={4}
               />
               <div className="mt-2 flex justify-end space-x-2">
-                <button
+                <Button
+                  variant="destructive"
                   onClick={() => {
                     setShowReviewForm(false);
                     if (userRating?.review) {
                       setUserReview(userRating.review);
                     }
                   }}
-                  className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
                   disabled={isSubmitting}
                 >
-                  Anuluj
-                </button>
-                <button
-                  onClick={handleSubmitReview}
-                  className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Zapisywanie...' : 'Zapisz recenzję'}
-                </button>
+                  Cancel
+                </Button>
+                <Button onClick={handleSubmitReview} disabled={isSubmitting}>
+                  {isSubmitting ? 'Saving...' : 'Save review'}
+                </Button>
               </div>
             </div>
           )}
@@ -307,16 +300,14 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
           {success && <p className="mt-2 text-sm text-green-500">{success}</p>}
         </div>
       ) : (
-        <p className="mb-6 text-gray-600">
-          Zaloguj się, aby ocenić tę książkę.
-        </p>
+        <p className="mb-6 text-gray-600">Log in to rate this book.</p>
       )}
 
       <div className="border-t border-gray-200 pt-6">
-        <h3 className="mb-4 text-lg font-semibold">Recenzje użytkowników</h3>
+        <h3 className="mb-4 text-lg font-semibold">User Reviews</h3>
 
         {isLoadingRatings ? (
-          <p className="text-gray-500">Ładowanie recenzji...</p>
+          <p className="text-gray-500">Loading reviews...</p>
         ) : allRatings.length > 0 ? (
           <div className="space-y-6">
             {allRatings.map((rating, index) => (
@@ -326,7 +317,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
                     <span className="font-medium">
                       {rating.userName ||
                         rating.userEmail?.split('@')[0] ||
-                        'Użytkownik'}
+                        'User'}
                     </span>
                     <div className="mt-1 text-sm text-yellow-500">
                       {renderStars(rating.rating)}
@@ -345,7 +336,7 @@ export default function BookRating({ bookId, bookData }: BookRatingProps) {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">Brak recenzji dla tej książki.</p>
+          <p className="text-gray-500">No reviews for this book yet.</p>
         )}
       </div>
     </div>

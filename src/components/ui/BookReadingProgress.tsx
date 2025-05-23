@@ -47,7 +47,8 @@ export default function BookReadingProgress({
       </div>
 
       {showDetails && (
-        <div className="mt-2 flex items-center justify-between text-sm text-gray-600">
+        <div className="mt-2 flex flex-col
+ items-center justify-between text-sm text-gray-600">
           <div className="flex items-center gap-1.5">
             <span className="font-medium">Page</span>
             <span className="rounded-md bg-gray-100 px-2 py-0.5 font-medium">
@@ -58,7 +59,7 @@ export default function BookReadingProgress({
               {displayTotalPages}
             </span>
           </div>
-          <div className="font-medium text-blue-600">
+          <div className="font-medium text-blue-600 mt-2">
             {progressPercentage}% completed
           </div>
         </div>

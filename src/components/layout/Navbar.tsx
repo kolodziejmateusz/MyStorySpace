@@ -42,7 +42,8 @@ export default function Navbar() {
     <nav className="rounded-br-md rounded-bl-md bg-orange-500 shadow">
       <div className="mx-auto flex w-full flex-col items-start gap-4 p-4 md:flex-row md:items-center md:justify-between">
         <div className="flex w-full justify-between md:w-auto">
-          <img src="/logo.png" alt="Logo" className="h-8" />
+          
+          <Link href="/"><img src="/logo.png" alt="Logo" className="h-8" /></Link>
 
           <div className="flex items-center gap-3 md:hidden">
             <Menubar>
@@ -65,7 +66,8 @@ export default function Navbar() {
                   {currentUser ? (
                     <>
                       <MenubarItem>
-                        <span>{currentUser.email}</span>
+                        
+                        <Link href="/mybooks"><span>{currentUser.email}</span></Link>
                       </MenubarItem>
                       <MenubarItem onClick={handleLogout}>Logout</MenubarItem>
                     </>
@@ -119,7 +121,9 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           {currentUser ? (
             <>
-              <Badge variant="secondary">{currentUser.email}</Badge>
+              <Badge variant="secondary">
+                <Link href="/mybooks">{currentUser.email}</Link>
+              </Badge>
               <Button variant="destructive" onClick={handleLogout}>
                 Logout
               </Button>

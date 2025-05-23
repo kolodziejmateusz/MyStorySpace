@@ -59,10 +59,7 @@ export default function BookCard({ book }: { book: Book }) {
             apiRating={book.averageRating ?? undefined}
           />
 
-          <div className="mt-3 text-sm text-gray-700">
-            
-            <p className="mt-2 line-clamp-3">{book.description}</p>
-          </div>
+          <div className='line-clamp-3' dangerouslySetInnerHTML={{ __html: book.description }} />
         </div>
 
         <div className="mt-4 flex justify-end">

@@ -35,7 +35,6 @@ export default function BooksList() {
       const booksRef = collection(db, 'users', user.uid, 'books');
       const booksQuery = query(booksRef);
 
-      // Use onSnapshot for real-time updates
       const unsubscribeBooks = onSnapshot(
         booksQuery,
         (snapshot) => {
@@ -44,7 +43,6 @@ export default function BooksList() {
             ...doc.data(),
           })) as Book[];
 
-          // Separate books into lists
           setToRead(allBooks.filter((book) => book.status === 'to-read'));
           setReading(allBooks.filter((book) => book.status === 'reading'));
           setRead(allBooks.filter((book) => book.status === 'read'));
@@ -57,13 +55,11 @@ export default function BooksList() {
         },
       );
 
-      // Return a cleanup function that unsubscribes from both auth and books listener
       return () => {
         unsubscribeBooks();
       };
     });
 
-    // Return the unsubscribe function for the auth listener
     return () => unsubscribe();
   }, []);
 
@@ -77,24 +73,24 @@ export default function BooksList() {
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 italic">Brak książek w tej kategorii.</p>
+        <p className="text-gray-500 italic">No books in this category.</p>
       )}
     </section>
   );
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-8 text-3xl font-bold">Twoja Biblioteka</h1>
+      <h1 className="mb-8 text-3xl font-bold">Your Library</h1>
 
       {loading ? (
         <div className="flex justify-center">
-          <p>Ładowanie książek...</p>
+          <p>Loading books...</p>
         </div>
       ) : (
         <>
-          {renderSection('📚 Do przeczytania', toRead)}
-          {renderSection('📖 Czytam teraz', reading)}
-          {renderSection('✅ Przeczytane', read)}
+          {renderSection('📚 To Read', toRead)}
+          {renderSection('📖 Currently Reading', reading)}
+          {renderSection('✅ Read', read)}
         </>
       )}
     </div>
