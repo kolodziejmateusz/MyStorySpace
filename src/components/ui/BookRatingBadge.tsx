@@ -56,13 +56,7 @@ export default function BookRatingBadge({
           {userRatingAverage.toFixed(1)}
         </span>
         <span className="ml-2 text-sm text-gray-500">
-          ({userRatingCount}{' '}
-          {userRatingCount === 1
-            ? 'ocena'
-            : userRatingCount < 5
-              ? 'oceny'
-              : 'ocen'}
-          )
+          ({userRatingCount} {userRatingCount === 1 ? 'rating' : 'ratings'})
         </span>
       </div>
     );
