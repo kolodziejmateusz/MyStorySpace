@@ -53,13 +53,13 @@ export default function BookCard({ book }: { book: Book }) {
           <p className="text-sm text-gray-700 italic">
             {book.authors.join(' / ')} &nbsp;•&nbsp; {book.publishedDate}
           </p>
-
           <BookRatingBadge
             bookId={book.id}
             apiRating={book.averageRating ?? undefined}
           />
-
-          <div className='line-clamp-3' dangerouslySetInnerHTML={{ __html: book.description }} />
+          {book.description && (
+            <p>{book.description.split(' ').slice(0, 30).join(' ')}...</p>
+          )}
         </div>
 
         <div className="mt-4 flex justify-end">
