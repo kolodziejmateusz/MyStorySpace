@@ -5,7 +5,6 @@ type OpenLibrarySearchResult = {
   title: string;
   author_name?: string[];
   first_publish_year?: number;
-  isbn?: string[];
   subject?: string[];
   cover_i?: number;
   ratings_average?: number;
@@ -13,36 +12,26 @@ type OpenLibrarySearchResult = {
 
 type OpenLibraryResponse = {
   docs: OpenLibrarySearchResult[];
-  numFound: number;
 };
 
 export async function GET(request: NextRequest) {
   try {
-    // Pobierz parametr 'q' z query stringa
     const searchParams = request.nextUrl.searchParams;
-    const query = searchParams.get('q') || 'Harry Potter'; // Domyślnie 'Harry Potter' jeśli nie podano
+    const query = searchParams.get('q');
 
-    // Zapytanie po tytule
-    const titleUrl = `https://openlibrary.org/search.json?title=${encodeURIComponent(query)}&limit=30`;
-    const titleRes = await fetch(titleUrl);
-    const titleData: OpenLibraryResponse = await titleRes.json();
+    if (!query) {
+      return NextResponse.json(
+        { error: 'Query parameter is required' },
+        { status: 400 },
+      );
+    }
 
-    // Zapytanie po autorze
-    const authorUrl = `https://openlibrary.org/search.json?author=${encodeURIComponent(query)}&limit=30`;
-    const authorRes = await fetch(authorUrl);
-    const authorData: OpenLibraryResponse = await authorRes.json();
+    const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30`;
+    const response = await fetch(url);
+    const data: OpenLibraryResponse = await response.json();
 
-    // Połączenie wyników i usunięcie duplikatów na podstawie key
-    const allItems = [...(titleData.docs || []), ...(authorData.docs || [])];
-
-    // Tworzymy Map, gdzie kluczem jest item.key, co pozwala na unikalność wyników
-    const uniqueItems = Array.from(
-      new Map(allItems.map((item) => [item.key, item])).values(),
-    );
-
-    // Przetworzenie danych do odpowiedniego formatu (zgodnego z poprzednim API)
-    const books = uniqueItems.map((item: OpenLibrarySearchResult) => ({
-      id: item.key ? item.key.replace('/works/', '') : '', // Usuwamy prefix '/works/' z klucza
+    const books = data.docs.map((item) => ({
+      id: item.key ? item.key.replace('/works/', '') : '',
       title: item.title || 'No title available',
       authors: Array.isArray(item.author_name) ? item.author_name : [],
       publishedDate: item.first_publish_year
@@ -50,8 +39,8 @@ export async function GET(request: NextRequest) {
         : 'Brak daty',
       averageRating:
         typeof item.ratings_average === 'number' ? item.ratings_average : null,
-      categories: Array.isArray(item.subject) ? item.subject.slice(0, 5) : [], // Ograniczamy do 5 kategorii
-      description: null, // Open Library Search API nie zwraca opisu w wynikach wyszukiwania
+      categories: Array.isArray(item.subject) ? item.subject.slice(0, 5) : [],
+      description: null,
       thumbnail:
         typeof item.cover_i === 'number'
           ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`
