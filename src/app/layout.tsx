@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="mx-auto w-full xl:w-[70%]">
+    <html className="overflow-y-scroll" lang="en" suppressHydrationWarning>
+      <body className="w-full">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -24,8 +24,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <Navbar />
-            {children}
+            <main className="mx-auto w-full px-4 xl:w-[80%]">
+              <Navbar />
+              {children}
+            </main>
           </AuthProvider>
         </ThemeProvider>
       </body>
