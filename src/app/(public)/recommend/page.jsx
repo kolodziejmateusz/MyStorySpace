@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 export default function BookForm() {
   const [books, setBooks] = useState([{ title: '', author: '' }]);
@@ -77,11 +78,7 @@ export default function BookForm() {
       {result && (
         <div className="prose mt-6 max-w-none">
           <h2 className="mb-2 text-xl font-bold">Your Recommendations</h2>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: result.replace(/\n/g, '<br />'),
-            }}
-          />
+          <ReactMarkdown>{result}</ReactMarkdown>
         </div>
       )}
     </div>
