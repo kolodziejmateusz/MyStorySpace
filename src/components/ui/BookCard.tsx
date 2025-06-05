@@ -37,35 +37,41 @@ export default function BookCard({
 
   const handleListChange = async (newList: 'to-read' | 'reading' | 'read') => {
     if (currentList === newList) {
-      // Jeśli książka już jest na tej liście, nie rób nic
       return;
     }
 
-    await addBookToFirebase(book, newList); // Przeniesienie do nowej listy
+    await addBookToFirebase(book, newList);
     setCurrentList(newList);
   };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCardClick = () => {
     if (onSelect) {
-      onSelect(book.id, e.target.checked);
+      onSelect(book.id, !isSelected);
     }
   };
 
   return (
     <div
-      className={`flex w-full gap-6 rounded-xl p-4 shadow-xl transition-colors ${
-        isSelected ? 'border-2 border-blue-400 bg-blue-200' : 'bg-blue-100'
-      }`}
+      className={`relative flex w-full gap-6 rounded-xl p-4 shadow-xl transition-all duration-200 ${
+        isSelected
+          ? 'scale-[1.02] transform border-2 border-blue-500 bg-blue-200 shadow-lg'
+          : 'hover:bg-blue-150 bg-blue-100'
+      } ${onSelect ? 'cursor-pointer' : ''}`}
+      onClick={onSelect ? handleCardClick : undefined}
     >
-      {/* Checkbox do zaznaczania - tylko gdy onSelect jest dostępne */}
-      {onSelect && (
-        <div className="flex items-start pt-2">
-          <input
-            type="checkbox"
-            checked={isSelected}
-            onChange={handleCheckboxChange}
-            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500"
-          />
+      {onSelect && isSelected && (
+        <div className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600">
+          <svg
+            className="h-4 w-4 text-white"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
         </div>
       )}
 
@@ -77,8 +83,11 @@ export default function BookCard({
 
       <div className="flex flex-1 flex-col justify-between">
         <div>
-          <Link href={`/books/${book.id}`}>
-            <h2 className="text-lg font-semibold text-gray-900">
+          <Link
+            href={`/books/${book.id}`}
+            onClick={(e) => onSelect && e.stopPropagation()}
+          >
+            <h2 className="text-lg font-semibold text-gray-900 transition-colors hover:text-blue-600">
               {book.title}
             </h2>
           </Link>
@@ -96,7 +105,7 @@ export default function BookCard({
 
         <div className="mt-4 flex justify-end">
           {currentUser && (
-            <div>
+            <div onClick={(e) => e.stopPropagation()}>
               <BookListDropdown
                 currentList={currentList}
                 onListChange={handleListChange}
@@ -105,10 +114,12 @@ export default function BookCard({
           )}
 
           {currentList && (
-            <DeleteBookDialog
-              bookId={book.id}
-              onDeleteSuccess={() => setCurrentList(null)}
-            />
+            <div onClick={(e) => e.stopPropagation()}>
+              <DeleteBookDialog
+                bookId={book.id}
+                onDeleteSuccess={() => setCurrentList(null)}
+              />
+            </div>
           )}
         </div>
       </div>

@@ -10,6 +10,7 @@ import {
   onSnapshot,
   query,
 } from 'firebase/firestore';
+import { Button } from '@/components/shadcn-ui/button';
 
 const db = getFirestore();
 
@@ -117,7 +118,6 @@ export default function BooksList() {
       const data = await response.json();
       console.log('API Response:', data);
 
-      // Po wysłaniu wyłącz tryb selekcji
       setIsSelectionMode(false);
       setSelectedBooks(new Set());
     } catch (error) {
@@ -151,30 +151,23 @@ export default function BooksList() {
         <h1 className="text-3xl font-bold">Your Library</h1>
 
         {!isSelectionMode ? (
-          <button
-            onClick={handleEnterSelectionMode}
-            className="flex items-center gap-2 rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700"
-          >
+          <Button onClick={handleEnterSelectionMode} variant="secondary">
             🤖 Recommend books with AI
-          </button>
+          </Button>
         ) : (
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">
               {selectedBooks.size} książek zaznaczonych
             </span>
-            <button
-              onClick={handleCancelSelection}
-              className="rounded-lg bg-gray-500 px-4 py-2 text-white transition-colors hover:bg-gray-600"
-            >
+            <Button onClick={handleCancelSelection} variant="destructive">
               Anuluj
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={handleSendToAPI}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
               disabled={selectedBooks.size === 0}
             >
               Wyślij do AI
-            </button>
+            </Button>
           </div>
         )}
       </div>
