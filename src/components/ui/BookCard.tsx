@@ -9,7 +9,17 @@ import { useAuth } from '@/contexts/AuthProvider';
 import Link from 'next/link';
 import BookRatingBadge from './BookRatingBadge';
 
-export default function BookCard({ book }: { book: Book }) {
+interface BookCardProps {
+  book: Book;
+  isSelected?: boolean;
+  onSelect?: (bookId: string, isSelected: boolean) => void;
+}
+
+export default function BookCard({
+  book,
+  isSelected = false,
+  onSelect,
+}: BookCardProps) {
   type ReadingList = 'to-read' | 'reading' | 'read';
   const [currentList, setCurrentList] = useState<ReadingList | null>(null);
   const { currentUser } = useAuth();
@@ -35,8 +45,30 @@ export default function BookCard({ book }: { book: Book }) {
     setCurrentList(newList);
   };
 
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (onSelect) {
+      onSelect(book.id, e.target.checked);
+    }
+  };
+
   return (
-    <div className="flex w-full gap-6 rounded-xl bg-blue-100 p-4 shadow-xl">
+    <div
+      className={`flex w-full gap-6 rounded-xl p-4 shadow-xl transition-colors ${
+        isSelected ? 'border-2 border-blue-400 bg-blue-200' : 'bg-blue-100'
+      }`}
+    >
+      {/* Checkbox do zaznaczania */}
+      {onSelect && (
+        <div className="flex items-start pt-2">
+          <input
+            type="checkbox"
+            checked={isSelected}
+            onChange={handleCheckboxChange}
+            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-blue-500"
+          />
+        </div>
+      )}
+
       <img
         src={book.thumbnail}
         alt={book.title}

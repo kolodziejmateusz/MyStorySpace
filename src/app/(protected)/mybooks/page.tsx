@@ -18,6 +18,7 @@ export default function BooksList() {
   const [reading, setReading] = useState<Book[]>([]);
   const [read, setRead] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedBooks, setSelectedBooks] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const auth = getAuth();
@@ -63,13 +64,64 @@ export default function BooksList() {
     return () => unsubscribe();
   }, []);
 
+  const handleBookSelect = (bookId: string, isSelected: boolean) => {
+    setSelectedBooks((prev) => {
+      const newSet = new Set(prev);
+      if (isSelected) {
+        newSet.add(bookId);
+      } else {
+        newSet.delete(bookId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleSendToAPI = async () => {
+    if (selectedBooks.size === 0) {
+      console.log('No books selected');
+      return;
+    }
+
+    const allBooks = [...toRead, ...reading, ...read];
+    const selectedBooksData = allBooks
+      .filter((book) => selectedBooks.has(book.id))
+      .map((book) => ({
+        title: book.title,
+        author: book.authors.join(', '),
+      }));
+
+    console.log('Sending to API:', selectedBooksData);
+
+    try {
+      const response = await fetch('/api/recommend', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          books: selectedBooksData,
+        }),
+      });
+
+      const data = await response.json();
+      console.log('API Response:', data);
+    } catch (error) {
+      console.error('Error calling API:', error);
+    }
+  };
+
   const renderSection = (title: string, books: Book[]) => (
     <section className="mb-10">
       <h2 className="mb-4 text-xl font-semibold">{title}</h2>
       {books.length > 0 ? (
         <div className="grid gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">
           {books.map((book) => (
-            <BookCard key={book.id} book={book} />
+            <BookCard
+              key={book.id}
+              book={book}
+              isSelected={selectedBooks.has(book.id)}
+              onSelect={handleBookSelect}
+            />
           ))}
         </div>
       ) : (
@@ -80,7 +132,23 @@ export default function BooksList() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-8 text-3xl font-bold">Your Library</h1>
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-3xl font-bold">Your Library</h1>
+
+        {selectedBooks.size > 0 && (
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-gray-600">
+              {selectedBooks.size} książek zaznaczonych
+            </span>
+            <button
+              onClick={handleSendToAPI}
+              className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+            >
+              Wyślij do API
+            </button>
+          </div>
+        )}
+      </div>
 
       {loading ? (
         <div className="flex justify-center">
