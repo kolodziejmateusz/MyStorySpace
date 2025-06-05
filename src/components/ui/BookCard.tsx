@@ -57,7 +57,7 @@ export default function BookCard({
         isSelected ? 'border-2 border-blue-400 bg-blue-200' : 'bg-blue-100'
       }`}
     >
-      {/* Checkbox do zaznaczania */}
+      {/* Checkbox do zaznaczania - tylko gdy onSelect jest dostępne */}
       {onSelect && (
         <div className="flex items-start pt-2">
           <input

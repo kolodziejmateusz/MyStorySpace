@@ -19,6 +19,7 @@ export default function BooksList() {
   const [read, setRead] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedBooks, setSelectedBooks] = useState<Set<string>>(new Set());
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
@@ -64,6 +65,16 @@ export default function BooksList() {
     return () => unsubscribe();
   }, []);
 
+  const handleEnterSelectionMode = () => {
+    setIsSelectionMode(true);
+    setSelectedBooks(new Set());
+  };
+
+  const handleCancelSelection = () => {
+    setIsSelectionMode(false);
+    setSelectedBooks(new Set());
+  };
+
   const handleBookSelect = (bookId: string, isSelected: boolean) => {
     setSelectedBooks((prev) => {
       const newSet = new Set(prev);
@@ -105,6 +116,10 @@ export default function BooksList() {
 
       const data = await response.json();
       console.log('API Response:', data);
+
+      // Po wysłaniu wyłącz tryb selekcji
+      setIsSelectionMode(false);
+      setSelectedBooks(new Set());
     } catch (error) {
       console.error('Error calling API:', error);
     }
@@ -120,7 +135,7 @@ export default function BooksList() {
               key={book.id}
               book={book}
               isSelected={selectedBooks.has(book.id)}
-              onSelect={handleBookSelect}
+              onSelect={isSelectionMode ? handleBookSelect : undefined}
             />
           ))}
         </div>
@@ -135,16 +150,30 @@ export default function BooksList() {
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Your Library</h1>
 
-        {selectedBooks.size > 0 && (
+        {!isSelectionMode ? (
+          <button
+            onClick={handleEnterSelectionMode}
+            className="flex items-center gap-2 rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700"
+          >
+            🤖 Recommend books with AI
+          </button>
+        ) : (
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">
               {selectedBooks.size} książek zaznaczonych
             </span>
             <button
+              onClick={handleCancelSelection}
+              className="rounded-lg bg-gray-500 px-4 py-2 text-white transition-colors hover:bg-gray-600"
+            >
+              Anuluj
+            </button>
+            <button
               onClick={handleSendToAPI}
               className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+              disabled={selectedBooks.size === 0}
             >
-              Wyślij do API
+              Wyślij do AI
             </button>
           </div>
         )}
