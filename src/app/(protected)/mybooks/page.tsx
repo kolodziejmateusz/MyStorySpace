@@ -11,6 +11,7 @@ import {
   query,
 } from 'firebase/firestore';
 import { Button } from '@/components/shadcn-ui/button';
+import Markdown from 'react-markdown';
 
 const db = getFirestore();
 
@@ -21,6 +22,7 @@ export default function BooksList() {
   const [loading, setLoading] = useState(true);
   const [selectedBooks, setSelectedBooks] = useState<Set<string>>(new Set());
   const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [recommendation, setRecommendation] = useState<string | null>(null);
 
   useEffect(() => {
     const auth = getAuth();
@@ -117,6 +119,7 @@ export default function BooksList() {
 
       const data = await response.json();
       console.log('API Response:', data);
+      setRecommendation(data.result);
 
       setIsSelectionMode(false);
       setSelectedBooks(new Set());
@@ -182,6 +185,15 @@ export default function BooksList() {
           {renderSection('📖 Currently Reading', reading)}
           {renderSection('✅ Read', read)}
         </>
+      )}
+
+      {recommendation && (
+        <div className="mt-10 rounded-xl bg-gray-100 p-6 shadow">
+          <h2 className="mb-4 text-2xl font-bold">📖 AI Recommendations</h2>
+          <div className="prose max-w-none">
+            <Markdown>{recommendation}</Markdown>
+          </div>
+        </div>
       )}
     </div>
   );
