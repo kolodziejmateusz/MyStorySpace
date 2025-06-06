@@ -7,7 +7,8 @@ import {
 } from '@/components/shadcn-ui/dialog';
 import { Button } from '@/components/shadcn-ui/button';
 import { Loader2 } from 'lucide-react';
-import Markdown from 'react-markdown';
+import { Book } from '@/types/book';
+import BookCard from '@/components/ui/BookCard';
 
 interface RecommendationDialogProps {
   isOpen: boolean;
@@ -21,7 +22,7 @@ export default function RecommendationDialog({
   selectedBooks,
 }: RecommendationDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [recommendation, setRecommendation] = useState<string | null>(null);
+  const [recommendedBooks, setRecommendedBooks] = useState<Book[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const handleSendToAPI = async () => {
@@ -32,7 +33,7 @@ export default function RecommendationDialog({
 
     setIsLoading(true);
     setError(null);
-    setRecommendation(null);
+    setRecommendedBooks([]);
 
     try {
       const response = await fetch('/api/recommend', {
@@ -50,7 +51,8 @@ export default function RecommendationDialog({
       }
 
       const data = await response.json();
-      setRecommendation(data.result);
+      console.log(data);
+      setRecommendedBooks(data.books || []);
     } catch (error) {
       console.error('Error calling API:', error);
       setError(
@@ -62,7 +64,7 @@ export default function RecommendationDialog({
   };
 
   const handleClose = () => {
-    setRecommendation(null);
+    setRecommendedBooks([]);
     setError(null);
     setIsLoading(false);
     onClose();
@@ -70,7 +72,7 @@ export default function RecommendationDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-h-[80vh] max-w-6xl overflow-y-auto">
+      <DialogContent className="max-h-[80vh] max-w-4xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             🤖 Rekomendacje AI
@@ -78,7 +80,7 @@ export default function RecommendationDialog({
         </DialogHeader>
 
         <div className="mt-4">
-          {!isLoading && !recommendation && !error && (
+          {!isLoading && recommendedBooks.length === 0 && !error && (
             <div className="space-y-4">
               <div>
                 <h3 className="mb-2 font-semibold">Wybrane książki:</h3>
@@ -127,13 +129,27 @@ export default function RecommendationDialog({
             </div>
           )}
 
-          {recommendation && (
+          {recommendedBooks.length > 0 && (
             <div className="space-y-4">
               <div className="rounded-xl border bg-gradient-to-r from-blue-50 to-purple-50 p-6">
-                <div className="prose max-w-none">
-                  <Markdown>{recommendation}</Markdown>
-                </div>
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">
+                  📚 Polecane książki dla Ciebie
+                </h3>
+
+                {recommendedBooks.length === 0 ? (
+                  <p className="text-gray-600">
+                    Nie znaleziono szczegółowych informacji o polecanych
+                    książkach.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {recommendedBooks.map((book, index) => (
+                      <BookCard key={index} book={book} />
+                    ))}
+                  </div>
+                )}
               </div>
+
               <div className="flex justify-end">
                 <Button onClick={handleClose}>Zamknij</Button>
               </div>
