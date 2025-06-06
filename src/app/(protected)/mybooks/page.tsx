@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Book } from '@/types/book';
 import BookCard from '@/components/ui/BookCard';
+import RecommendationDialog from '@/components/ui/RecommendationDialog';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
   getFirestore,
@@ -11,7 +12,6 @@ import {
   query,
 } from 'firebase/firestore';
 import { Button } from '@/components/shadcn-ui/button';
-import Markdown from 'react-markdown';
 
 const db = getFirestore();
 
@@ -22,7 +22,7 @@ export default function BooksList() {
   const [loading, setLoading] = useState(true);
   const [selectedBooks, setSelectedBooks] = useState<Set<string>>(new Set());
   const [isSelectionMode, setIsSelectionMode] = useState(false);
-  const [recommendation, setRecommendation] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     const auth = getAuth();
@@ -90,42 +90,28 @@ export default function BooksList() {
     });
   };
 
-  const handleSendToAPI = async () => {
+  const handleOpenDialog = () => {
     if (selectedBooks.size === 0) {
       console.log('No books selected');
       return;
     }
+    setIsDialogOpen(true);
+  };
 
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setIsSelectionMode(false);
+    setSelectedBooks(new Set());
+  };
+
+  const getSelectedBooksData = () => {
     const allBooks = [...toRead, ...reading, ...read];
-    const selectedBooksData = allBooks
+    return allBooks
       .filter((book) => selectedBooks.has(book.id))
       .map((book) => ({
         title: book.title,
         author: book.authors.join(', '),
       }));
-
-    console.log('Sending to API:', selectedBooksData);
-
-    try {
-      const response = await fetch('/api/recommend', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          books: selectedBooksData,
-        }),
-      });
-
-      const data = await response.json();
-      console.log('API Response:', data);
-      setRecommendation(data.result);
-
-      setIsSelectionMode(false);
-      setSelectedBooks(new Set());
-    } catch (error) {
-      console.error('Error calling API:', error);
-    }
   };
 
   const renderSection = (title: string, books: Book[]) => (
@@ -166,7 +152,7 @@ export default function BooksList() {
               Anuluj
             </Button>
             <Button
-              onClick={handleSendToAPI}
+              onClick={handleOpenDialog}
               disabled={selectedBooks.size === 0}
             >
               Wyślij do AI
@@ -187,14 +173,11 @@ export default function BooksList() {
         </>
       )}
 
-      {recommendation && (
-        <div className="mt-10 rounded-xl bg-gray-100 p-6 shadow">
-          <h2 className="mb-4 text-2xl font-bold">📖 AI Recommendations</h2>
-          <div className="prose max-w-none">
-            <Markdown>{recommendation}</Markdown>
-          </div>
-        </div>
-      )}
+      <RecommendationDialog
+        isOpen={isDialogOpen}
+        onClose={handleCloseDialog}
+        selectedBooks={getSelectedBooksData()}
+      />
     </div>
   );
 }
