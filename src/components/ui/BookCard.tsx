@@ -9,7 +9,17 @@ import { useAuth } from '@/contexts/AuthProvider';
 import Link from 'next/link';
 import BookRatingBadge from './BookRatingBadge';
 
-export default function BookCard({ book }: { book: Book }) {
+interface BookCardProps {
+  book: Book;
+  isSelected?: boolean;
+  onSelect?: (bookId: string, isSelected: boolean) => void;
+}
+
+export default function BookCard({
+  book,
+  isSelected = false,
+  onSelect,
+}: BookCardProps) {
   type ReadingList = 'to-read' | 'reading' | 'read';
   const [currentList, setCurrentList] = useState<ReadingList | null>(null);
   const { currentUser } = useAuth();
@@ -27,16 +37,44 @@ export default function BookCard({ book }: { book: Book }) {
 
   const handleListChange = async (newList: 'to-read' | 'reading' | 'read') => {
     if (currentList === newList) {
-      // Jeśli książka już jest na tej liście, nie rób nic
       return;
     }
 
-    await addBookToFirebase(book, newList); // Przeniesienie do nowej listy
+    await addBookToFirebase(book, newList);
     setCurrentList(newList);
   };
 
+  const handleCardClick = () => {
+    if (onSelect) {
+      onSelect(book.id, !isSelected);
+    }
+  };
+
   return (
-    <div className="flex w-full gap-6 rounded-xl bg-blue-100 p-4 shadow-xl">
+    <div
+      className={`relative flex w-full gap-6 rounded-xl p-4 shadow-xl transition-all duration-200 ${
+        isSelected
+          ? 'scale-[1.02] transform border-2 border-blue-500 bg-blue-200 shadow-lg'
+          : 'hover:bg-blue-150 bg-blue-100'
+      } ${onSelect ? 'cursor-pointer' : ''}`}
+      onClick={onSelect ? handleCardClick : undefined}
+    >
+      {onSelect && isSelected && (
+        <div className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600">
+          <svg
+            className="h-4 w-4 text-white"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+      )}
+
       <img
         src={book.thumbnail}
         alt={book.title}
@@ -45,8 +83,11 @@ export default function BookCard({ book }: { book: Book }) {
 
       <div className="flex flex-1 flex-col justify-between">
         <div>
-          <Link href={`/books/${book.id}`}>
-            <h2 className="text-lg font-semibold text-gray-900">
+          <Link
+            href={`/books/${book.id}`}
+            onClick={(e) => onSelect && e.stopPropagation()}
+          >
+            <h2 className="text-lg font-semibold text-gray-900 transition-colors hover:text-blue-600">
               {book.title}
             </h2>
           </Link>
@@ -64,7 +105,7 @@ export default function BookCard({ book }: { book: Book }) {
 
         <div className="mt-4 flex justify-end">
           {currentUser && (
-            <div>
+            <div onClick={(e) => e.stopPropagation()}>
               <BookListDropdown
                 currentList={currentList}
                 onListChange={handleListChange}
@@ -73,10 +114,12 @@ export default function BookCard({ book }: { book: Book }) {
           )}
 
           {currentList && (
-            <DeleteBookDialog
-              bookId={book.id}
-              onDeleteSuccess={() => setCurrentList(null)}
-            />
+            <div onClick={(e) => e.stopPropagation()}>
+              <DeleteBookDialog
+                bookId={book.id}
+                onDeleteSuccess={() => setCurrentList(null)}
+              />
+            </div>
           )}
         </div>
       </div>
