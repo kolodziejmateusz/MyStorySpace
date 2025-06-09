@@ -144,7 +144,7 @@ export default function RecommendationDialog({
                 ) : (
                   <div className="space-y-4">
                     {recommendedBooks.map((book, index) => (
-                      <BookCard key={index} book={book} />
+                      <BookCard key={index} book={book} openBookAtNewTab />
                     ))}
                   </div>
                 )}

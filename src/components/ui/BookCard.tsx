@@ -12,12 +12,14 @@ import BookRatingBadge from './BookRatingBadge';
 interface BookCardProps {
   book: Book;
   isSelected?: boolean;
+  openBookAtNewTab?: boolean;
   onSelect?: (bookId: string, isSelected: boolean) => void;
 }
 
 export default function BookCard({
   book,
   isSelected = false,
+  openBookAtNewTab = false,
   onSelect,
 }: BookCardProps) {
   type ReadingList = 'to-read' | 'reading' | 'read';
@@ -85,6 +87,8 @@ export default function BookCard({
         <div>
           <Link
             href={`/books/${book.id}`}
+            target={openBookAtNewTab ? '_blank' : undefined}
+            rel={openBookAtNewTab ? 'noopener noreferrer' : undefined}
             onClick={(e) => onSelect && e.stopPropagation()}
           >
             <h2 className="text-lg font-semibold text-gray-900 transition-colors hover:text-blue-600">
