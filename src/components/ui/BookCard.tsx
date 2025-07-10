@@ -80,7 +80,7 @@ export default function BookCard({
       <img
         src={book.thumbnail}
         alt={book.title}
-        className="h-auto w-28 rounded-md shadow-sm"
+        className="h-48 rounded-md object-cover shadow-sm"
       />
 
       <div className="flex flex-1 flex-col justify-between">

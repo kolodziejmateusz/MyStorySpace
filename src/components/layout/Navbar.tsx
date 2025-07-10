@@ -39,7 +39,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="rounded-br-md rounded-bl-md bg-orange-500 shadow">
+    <nav className="rounded-br-md rounded-bl-md bg-orange-400 shadow">
       <div className="mx-auto flex w-full flex-col items-start gap-4 p-4 md:flex-row md:items-center md:justify-between">
         <div className="flex w-full justify-between md:w-auto">
           
