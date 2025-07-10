@@ -24,7 +24,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <main className="mx-auto w-full px-4 xl:w-[80%]">
+            <main className="mx-auto w-full px-4 xl:w-[90%]">
               <Navbar />
               {children}
             </main>
