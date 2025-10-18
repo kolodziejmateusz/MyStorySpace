@@ -3,48 +3,49 @@
 import { NextResponse } from 'next/server';
 import { chromium } from 'playwright';
 
+type Bookstore = {
+  name: string;
+  type: string;
+  price: string;
+  link: string;
+};
+
 export async function GET() {
   // Uruchomienie przeglądarki
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
-  //   await page.goto('https://example.com');
-  await page.goto('https://www.warmane.com/');
-  await page.getByRole('link', { name: 'CHANGELOG' }).click();
-  await page
-    .locator('#changelogDate_msdd > .wm-ui-dropdown-title > .arrow')
-    .click();
-  await page.locator('#changelogDate_child').getByText('March 2025').click();
-  const lastElement = await page.getByText('Fixed not auto-learning');
-  const text = await lastElement.textContent();
+  // Wejście na stronę książki
+  await page.goto(
+    'https://lubimyczytac.pl/ksiazka/5201943/harry-potter-i-kamien-filozoficzny',
+    { waitUntil: 'domcontentloaded' },
+  );
+  await page.locator('.placeholder_overlay').click();
 
+  // Selektor sekcji polecanych księgarni
+  const bookstoreSelector = '#buybox-bookstores-promoted .bookstore';
+
+  // Wyciągnięcie danych do tablicy obiektów
+  await page.waitForSelector(bookstoreSelector);
+
+  const bookstores: Bookstore[] = await page.$$eval(
+    bookstoreSelector,
+    (elements) => {
+      return elements.map((el) => {
+        const name =
+          el.querySelector('.bookstore-name')?.textContent?.trim() || '';
+        const type =
+          el.querySelector('.bookstore-item-kind')?.textContent?.trim() || '';
+        const price =
+          el.querySelector('.bookstore-item-price')?.textContent?.trim() || '';
+        const link = el.querySelector('a')?.href || '';
+        return { name, type, price, link };
+      });
+    },
+  );
   await browser.close();
 
   // Zwrócenie danych w formacie JSON
-  return NextResponse.json({ headers: text });
+  console.log(bookstores);
+  return NextResponse.json(bookstores, { status: 200 });
 }
-
-// import { NextResponse } from 'next/server';
-// import { chromium } from 'playwright';
-
-// export async function GET() {
-//   const browser = await chromium.launch();
-//   const page = await browser.newPage();
-
-//   try {
-//     await page.goto('https://www.warmane.com/');
-//     await page.getByRole('link', { name: 'CHANGELOG' }).click();
-//     await page.locator('#changelogDate_msdd > .wm-ui-dropdown-title > .arrow').click();
-//     await page.locator('#changelogDate_child').getByText('March 2025').click();
-//     const lastElement = await page.getByText('Fixed not auto-learning');
-
-//     const text = await lastElement.textContent();
-
-//     await browser.close();
-
-//     return NextResponse.json({ tekst: text?.trim() || '' });
-//   } catch (error) {
-//     await browser.close();
-//     return NextResponse.json({ error: 'Błąd podczas pobierania danych', details: error.message }, { status: 500 });
-//   }
-// }
