@@ -17,7 +17,7 @@ export async function GET() {
 
   // Wejście na stronę książki
   await page.goto(
-    'https://lubimyczytac.pl/ksiazka/5201943/harry-potter-i-kamien-filozoficzny',
+    'https://lubimyczytac.pl/ksiazka/5208216/jeszcze-kiedys-zatancze-w-deszczu',
     { waitUntil: 'domcontentloaded' },
   );
   await page.locator('.placeholder_overlay').click();
@@ -38,7 +38,8 @@ export async function GET() {
           el.querySelector('.bookstore-item-kind')?.textContent?.trim() || '';
         const price =
           el.querySelector('.bookstore-item-price')?.textContent?.trim() || '';
-        const link = el.querySelector('a')?.href || '';
+        const link = (el as HTMLAnchorElement).href || '';
+
         return { name, type, price, link };
       });
     },
