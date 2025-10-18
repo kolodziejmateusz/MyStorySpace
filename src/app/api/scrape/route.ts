@@ -5,6 +5,7 @@ type Bookstore = {
   name: string;
   type: string;
   price: number;
+  img: string;
   link: string;
 };
 
@@ -24,14 +25,15 @@ export async function GET() {
   ];
 
   let combinedBookstores: Bookstore[] = [];
-  let id = 1;
 
   for (const selector of selectors) {
     await page.waitForSelector(selector);
     const bookstores: Bookstore[] = await page.$$eval(selector, (elements) => {
       return elements.map((el) => {
-        const name =
-          el.querySelector('.bookstore-name')?.textContent?.trim() || '';
+        const nameElement = el.querySelector('.bookstore-name');
+        const name = nameElement?.textContent?.trim() || '';
+        const img =
+          nameElement?.querySelector('img')?.getAttribute('src') || '';
         const type =
           el.querySelector('.bookstore-item-kind')?.textContent?.trim() || '';
         const priceString =
@@ -43,7 +45,7 @@ export async function GET() {
         const price = parseFloat(numericString);
 
         const link = (el as HTMLAnchorElement).href || '';
-        return { name, type, price, link };
+        return { name, type, price, img, link };
       });
     });
     combinedBookstores = combinedBookstores.concat(bookstores);
