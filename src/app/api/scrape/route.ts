@@ -9,15 +9,31 @@ type Bookstore = {
   link: string;
 };
 
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const query = url.searchParams.get('q');
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
-  await page.goto(
-    'https://lubimyczytac.pl/ksiazka/5208216/jeszcze-kiedys-zatancze-w-deszczu',
-    { waitUntil: 'domcontentloaded' },
-  );
+  await page.goto('https://lubimyczytac.pl/', {
+    waitUntil: 'domcontentloaded',
+  });
+
   await page.locator('.placeholder_overlay').click();
+  await page
+    .getByRole('textbox', { name: 'Tytuł książki, autor, #tag, s' })
+    .click();
+  await page
+    .getByRole('textbox', { name: 'Tytuł książki, autor, #tag, s' })
+    .fill(query || 'Harry Potter i Komnata Tajemnic');
+  await page.getByRole('button', { name: 'Szukaj' }).click();
+  await page.locator('.placeholder_overlay').click();
+
+  await page.getByRole('button', { name: 'Zamknij modal' }).click();
+  await page
+    .locator('a.authorAllBooks__singleTextTitle.float-left')
+    .first()
+    .click();
 
   const selectors = [
     '#buybox-bookstores-promoted .bookstore',
@@ -60,6 +76,7 @@ export async function GET() {
   const sortedCombinedBookstoresWithId = sortedCombinedBookstores.map(
     (bookstore, index) => ({
       id: index + 1,
+      query,
       ...bookstore,
     }),
   );
