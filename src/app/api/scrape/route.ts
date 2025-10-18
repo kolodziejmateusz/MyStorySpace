@@ -1,52 +1,65 @@
-// app/api/scrape/route.ts
-
 import { NextResponse } from 'next/server';
 import { chromium } from 'playwright';
 
 type Bookstore = {
   name: string;
   type: string;
-  price: string;
+  price: number;
   link: string;
 };
 
 export async function GET() {
-  // Uruchomienie przeglądarki
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
-  // Wejście na stronę książki
   await page.goto(
     'https://lubimyczytac.pl/ksiazka/5208216/jeszcze-kiedys-zatancze-w-deszczu',
     { waitUntil: 'domcontentloaded' },
   );
   await page.locator('.placeholder_overlay').click();
 
-  // Selektor sekcji polecanych księgarni
-  const bookstoreSelector = '#buybox-bookstores-promoted .bookstore';
+  const selectors = [
+    '#buybox-bookstores-promoted .bookstore',
+    '#buybox-bookstores .bookstore',
+  ];
 
-  // Wyciągnięcie danych do tablicy obiektów
-  await page.waitForSelector(bookstoreSelector);
+  let combinedBookstores: Bookstore[] = [];
+  let id = 1;
 
-  const bookstores: Bookstore[] = await page.$$eval(
-    bookstoreSelector,
-    (elements) => {
+  for (const selector of selectors) {
+    await page.waitForSelector(selector);
+    const bookstores: Bookstore[] = await page.$$eval(selector, (elements) => {
       return elements.map((el) => {
         const name =
           el.querySelector('.bookstore-name')?.textContent?.trim() || '';
         const type =
           el.querySelector('.bookstore-item-kind')?.textContent?.trim() || '';
-        const price =
+        const priceString =
           el.querySelector('.bookstore-item-price')?.textContent?.trim() || '';
-        const link = (el as HTMLAnchorElement).href || '';
+        const numericString = priceString
+          .replace('zł', '')
+          .trim()
+          .replace(',', '.');
+        const price = parseFloat(numericString);
 
+        const link = (el as HTMLAnchorElement).href || '';
         return { name, type, price, link };
       });
-    },
-  );
+    });
+    combinedBookstores = combinedBookstores.concat(bookstores);
+  }
+
   await browser.close();
 
-  // Zwrócenie danych w formacie JSON
-  console.log(bookstores);
-  return NextResponse.json(bookstores, { status: 200 });
+  const sortedCombinedBookstores = combinedBookstores.sort(
+    (a, b) => a.price - b.price,
+  );
+
+  const sortedCombinedBookstoresWithId = sortedCombinedBookstores.map(
+    (bookstore, index) => ({
+      id: index + 1,
+      ...bookstore,
+    }),
+  );
+  return NextResponse.json(sortedCombinedBookstoresWithId, { status: 200 });
 }
