@@ -13,10 +13,12 @@ type Library = {
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const query = url.searchParams.get('q');
+  const lat = parseFloat(url.searchParams.get('lat') || '50.0614');
+  const lng = parseFloat(url.searchParams.get('lng') || '19.9383');
   const browser = await chromium.launch();
 
   const context = await browser.newContext({
-    geolocation: { latitude: 49.6491, longitude: 19.83 },
+    geolocation: { latitude: lat, longitude: lng },
     permissions: ['geolocation'],
   });
   const page = await context.newPage();
