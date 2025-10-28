@@ -36,6 +36,17 @@ export default function BookDetails() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    const storedLocation = localStorage.getItem('user_location');
+    if (storedLocation) {
+      setLocation(JSON.parse(storedLocation));
+    }
+  }, []);
+
   useEffect(() => {
     async function fetchBookDetails() {
       setLoading(true);
@@ -237,6 +248,9 @@ export default function BookDetails() {
           thumbnail: book.thumbnail,
         }}
       />
+      {location?.lat}
+      <br />
+      {location?.lng}
     </div>
   );
 }
