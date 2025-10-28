@@ -1,12 +1,14 @@
-import { Library } from 'lucide-react';
 import { NextResponse } from 'next/server';
 import { chromium } from 'playwright';
 
 type Library = {
   name: string;
-  street: string;
-  postal: string;
-  booksCount: string;
+  address: {
+    street: string;
+    postalCode: string;
+  };
+  availableBooks: number;
+  totalBooks: number;
   checkLink: string;
 };
 
@@ -63,11 +65,20 @@ export async function GET(request: Request) {
         'div.col-2.my-auto a.btn-primary',
       );
 
+      // Rozdzielenie "X z Y" na liczby
+      const booksText = booksCountDiv?.textContent?.trim() ?? '0 z 0';
+      const [availableStr, totalStr] = booksText.split(' z ');
+      const availableBooks = parseInt(availableStr) || 0;
+      const totalBooks = parseInt(totalStr) || 0;
+
       return {
         name: nameLink?.textContent?.trim() ?? '',
-        street: streetLink?.textContent?.trim() ?? '',
-        postal: postalLink?.textContent?.trim() ?? '',
-        booksCount: booksCountDiv?.textContent?.trim() ?? '',
+        address: {
+          street: streetLink?.textContent?.trim() ?? '',
+          postalCode: postalLink?.textContent?.trim() ?? '',
+        },
+        availableBooks,
+        totalBooks,
         checkLink: (checkLinkAnchor as HTMLAnchorElement)?.href ?? '',
       };
     }),
@@ -75,11 +86,16 @@ export async function GET(request: Request) {
 
   await browser.close();
 
-  const librariesWithId = libraries.map((library, index) => ({
-    id: index + 1,
-    query,
-    ...library,
-  }));
-
-  return NextResponse.json(librariesWithId, { status: 200 });
+  return NextResponse.json(
+    {
+      query,
+      latitude: lat,
+      longitude: lng,
+      libraries: libraries.map((library, index) => ({
+        id: index + 1,
+        ...library,
+      })),
+    },
+    { status: 200 },
+  );
 }
