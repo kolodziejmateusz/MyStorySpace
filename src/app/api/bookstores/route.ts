@@ -73,12 +73,14 @@ export async function GET(request: Request) {
     (a, b) => a.price - b.price,
   );
 
-  const sortedCombinedBookstoresWithId = sortedCombinedBookstores.map(
-    (bookstore, index) => ({
-      id: index + 1,
+  return NextResponse.json(
+    {
       query,
-      ...bookstore,
-    }),
+      bookstores: sortedCombinedBookstores.map((bookstore, index) => ({
+        id: index + 1,
+        ...bookstore,
+      })),
+    },
+    { status: 200 },
   );
-  return NextResponse.json(sortedCombinedBookstoresWithId, { status: 200 });
 }
