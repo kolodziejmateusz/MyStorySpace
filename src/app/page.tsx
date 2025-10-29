@@ -9,6 +9,22 @@ export default function BooksList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const coords = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          };
+          localStorage.setItem('user_location', JSON.stringify(coords));
+        },
+        () => {
+          console.log('user does not consent to the location');
+        },
+      );
+    }
+  }, []);
+  useEffect(() => {
     async function fetchBooks() {
       setLoading(true);
       try {
