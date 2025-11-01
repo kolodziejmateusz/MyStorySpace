@@ -19,6 +19,7 @@ import BookReadingProgress from '@/components/ui/BookReadingProgress';
 import BookRatingBadge from '@/components/ui/BookRatingBadge'; // Zaimportuj nowy komponent
 import BookStoresTable from '@/components/ui/table/BookStoresTable';
 import LibrariesTable from '@/components/ui/table/LibrariesTable';
+import { Skeleton } from '@/components/shadcn-ui/skeleton';
 
 type ReadingList = 'to-read' | 'reading' | 'read';
 
@@ -102,8 +103,23 @@ export default function BookDetails() {
 
   if (loading) {
     return (
-      <div className="container mx-auto flex h-screen items-center justify-center">
-        <p className="text-lg">Loading book details...</p>
+      <div className="container mx-auto py-8">
+        <div className="flex flex-col gap-8 md:flex-row">
+          <div className="flex flex-col items-center">
+            <Skeleton className="h-64 w-48 rounded-md" />
+          </div>
+          <div className="flex-1 space-y-4">
+            <Skeleton className="h-10 w-3/4 rounded" />
+            <Skeleton className="h-6 w-1/2 rounded" />
+            <Skeleton className="h-5 w-1/3 rounded" />
+            <div className="flex flex-wrap gap-2">
+              {Array.from({ length: 3 }).map((_, idx) => (
+                <Skeleton key={idx} className="h-8 w-20 rounded-full" />
+              ))}
+            </div>
+            <Skeleton className="h-48 w-full rounded" />
+          </div>
+        </div>
       </div>
     );
   }
