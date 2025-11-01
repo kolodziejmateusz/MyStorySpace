@@ -17,6 +17,8 @@ import CurrentBookProgressDialog from '@/components/ui/CurrentBookProgressDialog
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import BookReadingProgress from '@/components/ui/BookReadingProgress';
 import BookRatingBadge from '@/components/ui/BookRatingBadge'; // Zaimportuj nowy komponent
+import BookStoresTable from '@/components/ui/table/BookStoresTable';
+import LibrariesTable from '@/components/ui/table/LibrariesTable';
 
 type ReadingList = 'to-read' | 'reading' | 'read';
 
@@ -248,9 +250,17 @@ export default function BookDetails() {
           thumbnail: book.thumbnail,
         }}
       />
-      {location?.lat}
+      {/* {location?.lat}
       <br />
-      {location?.lng}
+      {location?.lng} */}
+      <div className="flex gap-x-4">
+      <div className="flex-3">
+        <BookStoresTable />
+      </div>
+      <div className="flex-4">
+        <LibrariesTable />
+      </div>
+    </div>
     </div>
   );
 }
