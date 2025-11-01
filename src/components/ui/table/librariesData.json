@@ -1,0 +1,128 @@
+{
+  "query": "'harry potter i więzień azkabanu",
+  "latitude": 49.6730112,
+  "longitude": 19.8770688,
+  "libraries": [
+    {
+      "id": 1,
+      "name": "Gminna Biblioteka Publiczna w Lubniu",
+      "address": {
+        "street": "Lubień 34",
+        "postalCode": "32-433 Lubień"
+      },
+      "availableBooks": 0,
+      "totalBooks": 2,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/712/1504678"
+    },
+    {
+      "id": 2,
+      "name": "Gminna Biblioteka Publiczna w Lubniu Filia w Skomielnej Białej",
+      "address": {
+        "street": "Skomielna Biała 391",
+        "postalCode": "32-434 Skomielna Biała"
+      },
+      "availableBooks": 0,
+      "totalBooks": 1,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/714/1504678"
+    },
+    {
+      "id": 3,
+      "name": "Gminny Ośrodek Kultury, Sportu i Promocji w Jordanowie. Biblioteka Łętownia",
+      "address": {
+        "street": "Łętownia 348",
+        "postalCode": "34-242 Łętownia"
+      },
+      "availableBooks": 1,
+      "totalBooks": 1,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/1132/905715"
+    },
+    {
+      "id": 4,
+      "name": "Gminny Ośrodek Kultury, Sportu i Promocji w Jordanowie. Biblioteka Wysoka",
+      "address": {
+        "street": "Wysoka 42",
+        "postalCode": "34-240 Wysoka"
+      },
+      "availableBooks": 1,
+      "totalBooks": 1,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/1135/1827782"
+    },
+    {
+      "id": 5,
+      "name": "Gminny Ośrodek Kultury, Sportu i Promocji w Jordanowie. Biblioteka Naprawa",
+      "address": {
+        "street": "Naprawa 477",
+        "postalCode": "34-240 Naprawa"
+      },
+      "availableBooks": 3,
+      "totalBooks": 3,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/1127/305426"
+    },
+    {
+      "id": 6,
+      "name": "Gminny Ośrodek Kultury, Sportu i Promocji w Jordanowie. Biblioteka Toporzysko",
+      "address": {
+        "street": "Toporzysko 250",
+        "postalCode": "34-240 Toporzysko"
+      },
+      "availableBooks": 0,
+      "totalBooks": 1,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/1134/305426"
+    },
+    {
+      "id": 7,
+      "name": "Gminna Biblioteka Publiczna w Mszanie Dolnej Filia w Mszanie Górnej",
+      "address": {
+        "street": "Mszana Górna 589",
+        "postalCode": "34-730 Mszana Górna"
+      },
+      "availableBooks": 1,
+      "totalBooks": 1,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/1532/305426"
+    },
+    {
+      "id": 8,
+      "name": "Gminna Biblioteka Publiczna w Mszanie Dolnej Filia w Rabie Niżnej",
+      "address": {
+        "street": "Raba Niżna 252",
+        "postalCode": "34-730 Raba Niżna"
+      },
+      "availableBooks": 1,
+      "totalBooks": 1,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/1534/2443336"
+    },
+    {
+      "id": 9,
+      "name": "Gminna Biblioteka Publiczna w Mszanie Dolnej siedziba w Kasinie Wielkiej",
+      "address": {
+        "street": "Kasina Wielka 590",
+        "postalCode": "34-741 Kasina Wielka"
+      },
+      "availableBooks": 1,
+      "totalBooks": 1,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/1528/6857517"
+    },
+    {
+      "id": 10,
+      "name": "Gminna Biblioteka Publiczna w Mszanie Dolnej filia Kasinka Mała",
+      "address": {
+        "street": "Kasina Mała 590",
+        "postalCode": "34-741 Kasinka Mała"
+      },
+      "availableBooks": 1,
+      "totalBooks": 1,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/1527/8295538"
+    },
+    {
+      "id": 11,
+      "name": "Gminna Biblioteka Publiczna w Mszanie Dolnej Filia w Rabie Niżnej",
+      "address": {
+        "street": "Raba Niżna 252",
+        "postalCode": "34-730 Raba Niżna"
+      },
+      "availableBooks": 1,
+      "totalBooks": 1,
+      "checkLink": "https://xn--szukamksiki-4kb16m.pl/SkNewWeb/record/1534/8506727"
+    }
+  ]
+}
