@@ -1,35 +1,34 @@
 ---
-description: Z tej strony dowiez się jak zarządzać swoją półką
-icon: '4'
+description: Z tej strony dowiesz się, jak zarządzać swoją półką książek
+icon: "4"
 ---
 
 # Moja półka
 
-## Dodawanie ksiązki
+## Dodawanie książki
 
-Ksiązke można dodać do jednej z trzech list/półek: To Read, Reading, Read
+Książkę możesz dodać do jednej z trzech list: **To Read**, **Reading** lub **Read**.
 
-Aby dodać ksiązke do półki na karcie ksiązki lub na stronie szczegółowej ksiązki kloknij "Your books" i wybiez do jakiej listy chcesz dodać ksiązke
+Aby dodać książkę do półki, na karcie książki lub stronie szczegółów kliknij **"Your books"** i wybierz listę docelową.
 
 <figure><img src=".gitbook/assets/image10.png" alt=""><figcaption></figcaption></figure>
 
-## Przeglądanie Półki
+## Przeglądanie półki
 
-1. Aby się przejść to swoich ksiązek kliknij baner z swoim emailem
+1. Aby przejść do swoich książek, kliknij baner z adresem e-mail.
 
 <figure><img src=".gitbook/assets/image11.png" alt=""><figcaption></figcaption></figure>
 
-2. Teraz możesz zobaczyć wszystkie swoje ksiązki
+2. Teraz możesz przeglądać wszystkie swoje książki na wybranej półce.
 
 <figure><img src=".gitbook/assets/image12.png" alt=""><figcaption></figcaption></figure>
 
-## Usuwanie ksiązki
+## Usuwanie książki
 
-1. Aby usunąć ksiązke kliknij "Delete"
+1. Aby usunąć książkę, kliknij **"Delete"**.
 
 <figure><img src=".gitbook/assets/image13.png" alt=""><figcaption></figcaption></figure>
 
-2. Potwierdz swój wybór klikajać jeszcze raz "Delete"
+2. Potwierdź usunięcie, klikając ponownie **"Delete"**.
 
 <figure><img src=".gitbook/assets/image14.png" alt=""><figcaption></figcaption></figure>
-
