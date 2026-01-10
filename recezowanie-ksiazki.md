@@ -1,20 +1,16 @@
 ---
-description: >-
-  Z tej sekcji dowiesz się jak zrecezować ksiązke oraz jak przeglądać recezje
-  innych użytkowników
-icon: '7'
+description: Z tej sekcji dowiesz się, jak recenzować książkę oraz przeglądać recenzje innych użytkowników
+icon: "7"
 ---
 
-# Recezowanie ksiązki
+# Recenzowanie książki
 
-Na karcie ksiązki oraz na widoku szczegółowym ksiązki możesz zobaczyć ocene ksiązki, ile ksiązka ma gwiazdek od 1 do 5 oraz jak wieli użytkowników oceniło ksiązke.
+Na karcie książki oraz w widoku szczegółowym widzisz ocenę książki, średnią liczbę gwiazdek (od 1 do 5) oraz liczbę użytkowników, którzy ją ocenili.
 
+## Jak ocenić książkę?
 
-
-## Jak ocenić ksiązke?
-
-1. Wejdz na szczegółowy widok ksiązki, zobaczysz sekcje "Book Ratings". Możesz tu zobaczyć liste recnzji.
-2. Aby dodać własną recenzje, kliknij ilość gwiazdek jakie chcesz przyznać.
-3. Teraz możesz dodać kometarz i kliknąc "Save review".
+1. Przejdź do szczegółowego widoku książki – znajdziesz sekcję **"Book Ratings"** z listą recenzji innych użytkowników.
+2. Aby dodać własną ocenę, kliknij odpowiednią liczbę gwiazdek (1-5).
+3. Dodaj komentarz i kliknij **"Save review"**.
 
 <figure><img src=".gitbook/assets/image22.png" alt=""><figcaption></figcaption></figure>

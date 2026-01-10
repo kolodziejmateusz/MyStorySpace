@@ -1,19 +1,19 @@
 ---
-description: Z tej sekcji dowiesz się jak sledzić postęp w czytaniu ksiązki
-icon: '8'
+description: Z tej sekcji dowiesz się, jak śledzić postęp w czytaniu książki
+icon: "8"
 ---
 
-# Sledzenie postepu czytania
+# Śledzenie postępu czytania
 
-1. Wejdz na strone szczegółową ksiązki.
-2. Gdy ksiązka jest na twojej półce "Reading" możesz dodać swój postęp w czytaniu klikająć "Update Reading Progress".
+1. Przejdź do strony szczegółowej książki.
+2. Gdy książka znajduje się na Twojej półce **"Reading"**, kliknij **"Update Reading Progress"**, aby zaktualizować postęp.
 
 <figure><img src=".gitbook/assets/image23.png" alt=""><figcaption></figcaption></figure>
 
-3. Wyświetli się okienko w którym możesz podać na której stronie w czytaniu obecnie jesteś oraz ile ksiązka ma całkowice stron i kliknąć "Save Progess".
+3. W oknie dialogowym podaj aktualną stronę, na której czytasz, całkowitą liczbę stron książki i kliknij **"Save Progress"**.
 
 <figure><img src=".gitbook/assets/image24.png" alt=""><figcaption></figcaption></figure>
 
-4. Teraz możesz pobaczyć swój postęp. Aplikacja wyświetli ile stron przeczytałeś oraz pokaże procetowo ile już przeczytałeś.
+4. Teraz widzisz swój postęp – aplikacja wyświetli liczbę przeczytanych stron oraz procentowy wskaźnik ukończenia.
 
 <figure><img src=".gitbook/assets/image25.png" alt=""><figcaption></figcaption></figure>

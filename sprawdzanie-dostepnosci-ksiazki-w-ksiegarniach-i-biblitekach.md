@@ -1,24 +1,23 @@
 ---
-description: >-
-  Z tej strony dowiesz jak sprawdzić w jakich ksiegarniach i w jakich cenach
-  możesz kupić daną ksiązke oraz w jakich bibliotekach w okolicy mozesz ją
-  wypozyczyć
-icon: '6'
+description: Z tej strony dowiesz się, jak sprawdzić dostępność książki w księgarniach i bibliotekach w okolicy
+icon: "6"
 ---
 
-# Sprawdzanie dostępności ksiązki w ksiegarniach i biblitekach
+# Sprawdzanie dostępności książki w księgarniach i bibliotekach
 
-1. Aby znaleść tą skecje kliknij w wybraną ksiązke, aby przejść na ekran szczegółowy ksiązki.
-2. Zjedz w dół.
+1. Aby znaleźć tę sekcję, kliknij wybraną książkę, aby przejść do ekranu szczegółów.
+2. Przewiń stronę w dół.
 
 ## Księgarnie
 
-Sekcja "Buy this book" wyświetla aktualne ofertry zakupu ksiązki w ksiegarniach internetowych, klikajac "Buy" możesz przejść do strony danej księgarni gdzie możesz zakupić dany tytuł. Mozęsz zobaczyć w jakiej ksiegfarni jest dostępna ksiązka i w jakiej cenie.
+Sekcja **"Buy this book"** wyświetla aktualne oferty zakupu książki w internetowych księgarniach. Klikając **"Buy"**, przejdziesz do strony księgarni, gdzie możesz kupić wybrany tytuł. Widzisz nazwę księgarni, dostępność oraz cenę.
 
 <figure><img src=".gitbook/assets/image20.png" alt=""><figcaption></figcaption></figure>
 
-## Biblioteki&#x20;
+## Biblioteki
 
-Sekcja "Borrow this book" wyświetla biblioteki w których możesz aktualnie wypożycyć ksiąze w swojej okolicy. Pamietaj aby funkcja działa poprawnie zezwól na dostęp do swojej lokalizacji. W tabeli zobaczsz nazwe biblioteki, jej adres oraz liczbe dośtepnych egzemplaży do wypożyczenia oraz ile bibliuoteka posiada egzemplazy. Klikając przycisk "Check" możesz przejść do zewnetrznego serwisu gdzie możesz użytskac wiecej informacji oraz zarezerwować ksiązke.
+Sekcja **"Borrow this book"** pokazuje biblioteki w okolicy, w których możesz wypożyczyć książkę. Aby funkcja działała poprawnie, zezwól na dostęp do lokalizacji. W tabeli znajdziesz nazwę biblioteki, adres, liczbę dostępnych egzemplarzy oraz łączną liczbę posiadanych.
+
+Klikając **"Check"**, przejdziesz do zewnętrznego serwisu z dodatkowymi informacjami i możliwością rezerwacji.
 
 <figure><img src=".gitbook/assets/image21.png" alt=""><figcaption></figcaption></figure>
