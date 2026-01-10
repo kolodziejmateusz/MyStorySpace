@@ -1,5 +1,6 @@
 ---
 description: Z tej strony dowiez się jak zarządzać swoją półką
+icon: '4'
 ---
 
 # Moja półka
