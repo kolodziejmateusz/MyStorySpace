@@ -2,6 +2,7 @@
 description: >-
   Z tej sekcji dowiesz się jak zrecezować ksiązke oraz jak przeglądać recezje
   innych użytkowników
+icon: '7'
 ---
 
 # Recezowanie ksiązki

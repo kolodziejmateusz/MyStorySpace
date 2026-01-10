@@ -8,3 +8,4 @@
 * [Rekomedacja AI](rekomedacja-ai.md)
 * [Sprawdzanie dostępności ksiązki w ksiegarniach i biblitekach](sprawdzanie-dostepnosci-ksiazki-w-ksiegarniach-i-biblitekach.md)
 * [Recezowanie ksiązki](recezowanie-ksiazki.md)
+* [Sledzenie postepu czytania](sledzenie-postepu-czytania.md)
