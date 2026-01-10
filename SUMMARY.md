@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Dokumetacja użytkownika](README.md)
+* [📚 Dokumetacja użytkownika](README.md)
 * [Rejestracja](rejestracja.md)
 * [Logowanie](logowanie.md)
 * [Resetowanie hasła](resetowanie-hasla.md)
