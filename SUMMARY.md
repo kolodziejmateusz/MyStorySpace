@@ -4,3 +4,4 @@
 * [Rejestracja](rejestracja.md)
 * [Logowanie](logowanie.md)
 * [Resetowanie hasła](resetowanie-hasla.md)
+* [Moja półka](moja-polka.md)
