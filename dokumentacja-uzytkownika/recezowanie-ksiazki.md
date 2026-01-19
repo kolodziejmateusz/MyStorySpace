@@ -1,6 +1,8 @@
 ---
-description: Z tej sekcji dowiesz się, jak recenzować książkę oraz przeglądać recenzje innych użytkowników
-icon: "7"
+description: >-
+  Z tej sekcji dowiesz się, jak recenzować książkę oraz przeglądać recenzje
+  innych użytkowników
+icon: '7'
 ---
 
 # Recenzowanie książki
@@ -13,4 +15,4 @@ Na karcie książki oraz w widoku szczegółowym widzisz ocenę książki, śred
 2. Aby dodać własną ocenę, kliknij odpowiednią liczbę gwiazdek (1-5).
 3. Dodaj komentarz i kliknij **"Save review"**.
 
-<figure><img src=".gitbook/assets/image22.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image22.png" alt=""><figcaption></figcaption></figure>

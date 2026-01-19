@@ -1,6 +1,8 @@
 ---
-description: Z tej strony dowiesz się, jak sprawdzić dostępność książki w księgarniach i bibliotekach w okolicy
-icon: "6"
+description: >-
+  Z tej strony dowiesz się, jak sprawdzić dostępność książki w księgarniach i
+  bibliotekach w okolicy
+icon: '6'
 ---
 
 # Sprawdzanie dostępności książki w księgarniach i bibliotekach
@@ -12,7 +14,7 @@ icon: "6"
 
 Sekcja **"Buy this book"** wyświetla aktualne oferty zakupu książki w internetowych księgarniach. Klikając **"Buy"**, przejdziesz do strony księgarni, gdzie możesz kupić wybrany tytuł. Widzisz nazwę księgarni, dostępność oraz cenę.
 
-<figure><img src=".gitbook/assets/image20.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image20.png" alt=""><figcaption></figcaption></figure>
 
 ## Biblioteki
 
@@ -20,4 +22,4 @@ Sekcja **"Borrow this book"** pokazuje biblioteki w okolicy, w których możesz 
 
 Klikając **"Check"**, przejdziesz do zewnętrznego serwisu z dodatkowymi informacjami i możliwością rezerwacji.
 
-<figure><img src=".gitbook/assets/image21.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image21.png" alt=""><figcaption></figcaption></figure>
