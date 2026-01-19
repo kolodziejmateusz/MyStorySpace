@@ -16,3 +16,5 @@
 
 * [Page 1](dokumentacja-techniczna/page-1.md)
 * [Page 2](dokumentacja-techniczna/page-2.md)
+* [Page 3](dokumentacja-techniczna/page-3.md)
+
