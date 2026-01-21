@@ -2,7 +2,7 @@
 description: Z tej strony dowiesz się jak działa endpoint /api/books
 ---
 
-# GET /api/books
+# GET `/api/books`
 
 ## GET `/api/books` - Wyszukiwanie książek w Open Library
 
@@ -33,6 +33,16 @@ Endpoint zwraca obiekt JSON zawierający tablicę książek wyszukanych w Open L
 ```json
 {
   "books": [
+    {
+      "id": "string",
+      "title": "string",
+      "authors": ["string"],
+      "publishedDate": "string",
+      "averageRating": "number | null",
+      "categories": ["string"],
+      "description": "null",
+      "thumbnail": "string"
+    },
     {
       "id": "string",
       "title": "string",

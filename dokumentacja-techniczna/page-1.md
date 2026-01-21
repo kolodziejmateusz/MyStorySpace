@@ -2,7 +2,7 @@
 description: Z tej strony dowiesz się jak działa endpoint /api
 ---
 
-# GET /api
+# GET `/api`
 
 ## GET `/api` - Pobieranie listy wszystkich książek z ocenami
 
