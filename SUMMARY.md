@@ -17,9 +17,7 @@
 * [Dokumentacja API](dokumentacja-techniczna/dokumentacja-api/README.md)
   * [GET /api](dokumentacja-techniczna/dokumentacja-api/page-1.md)
   * [GET /api/books/{id}](dokumentacja-techniczna/dokumentacja-api/page-3.md)
-* [GET /api/books](dokumentacja-techniczna/page-2.md)
-* [GET /api/bookstores](dokumentacja-techniczna/page-4.md)
-* [GET /api/libraries](dokumentacja-techniczna/page-5.md)
-* [POST /api/recommend](dokumentacja-techniczna/page-6.md)
-
-## Group 1
+  * [GET /api/books](dokumentacja-techniczna/dokumentacja-api/page-2.md)
+  * [GET /api/bookstores](dokumentacja-techniczna/dokumentacja-api/page-4.md)
+  * [GET /api/libraries](dokumentacja-techniczna/dokumentacja-api/page-5.md)
+  * [POST /api/recommend](dokumentacja-techniczna/dokumentacja-api/page-6.md)
