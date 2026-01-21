@@ -1,26 +1,24 @@
 ---
-description: test 2
+description: Z tej strony dowiesz się jak działa endpoint /api
 ---
 
-# Page 1
+# GET /api
 
-# GET `/api`
+## GET `/api` - Pobieranie listy wszystkich książek z ocenami
 
-# GET `/api` - Pobieranie listy wszystkich książek z ocenami
-
-## Opis endpointa
+### Opis endpointa
 
 Endpoint zwraca listę wszystkich książek z bazy danych Firebase wraz z ich ocenami użytkowników. Książki są sortowane malejąco według średniej oceny (najwyżej oceniane książki jako pierwsze).
 
-## Pobierane parametry
+### Pobierane parametry
 
 Endpoint nie przyjmuje żadnych parametrów (ani query params, ani body).
 
-## Zwracane dane
+### Zwracane dane
 
 Endpoint zwraca tablicę JSON zawierającą obiekty książek.
 
-### Schemat odpowiedzi (200 OK)
+#### Schemat odpowiedzi (200 OK)
 
 ```json
 [
@@ -53,7 +51,7 @@ Endpoint zwraca tablicę JSON zawierającą obiekty książek.
 ]
 ```
 
-### Przykładowa odpowiedz:
+#### Przykładowa odpowiedz:
 
 ```json
 [

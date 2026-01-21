@@ -1,5 +1,6 @@
 ---
-description: test 3
+description: Z tej strony dowiesz się jak działa endpoint /api/books/[id]
 ---
 
-# Page 3
+# GET /api/books/\[id]
+

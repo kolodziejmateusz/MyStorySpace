@@ -14,7 +14,6 @@
 
 ## Dokumentacja techniczna
 
-* [Page 1](dokumentacja-techniczna/page-1.md)
-* [Page 2](dokumentacja-techniczna/page-2.md)
-* [Page 3](dokumentacja-techniczna/page-3.md)
-
+* [GET /api](dokumentacja-techniczna/page-1.md)
+* [GET /api/books](dokumentacja-techniczna/page-2.md)
+* [GET /api/books/\[id\]](dokumentacja-techniczna/page-3.md)
