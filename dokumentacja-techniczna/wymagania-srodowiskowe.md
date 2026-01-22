@@ -4,10 +4,7 @@ icon: sparkle
 
 # Wymagania środowiskowe
 
-Prawidłowe funkcjonowanie oraz rozwój aplikacji **MyStorySpace** wymaga spełnienia określonych wymogów dotyczących oprogramowania, sprzętu oraz infrastruktury chmurowej. Poniższe zestawienie podzielono na:
-
-- **środowisko deweloperskie** – niezbędne do uruchomienia projektu i wprowadzania zmian
-- **środowisko produkcyjne** – użytkownika końcowego
+Prawidłowe funkcjonowanie oraz rozwój aplikacji **MyStorySpace** wymaga spełnienia określonych wymogów dotyczących oprogramowania, sprzętu oraz infrastruktury chmurowej.
 
 ## Dodatkowe oprogramowanie
 
