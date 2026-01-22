@@ -28,3 +28,4 @@
 ## Dokumentacja odbioru i wdrożenia
 
 * [Protokół zgodności produktu z zamówieniem](dokumentacja-odbioru-i-wdrozenia/protokol-zgodnosci-produktu-z-zamowieniem.md)
+* [Procedura wdrozenia](dokumentacja-odbioru-i-wdrozenia/procedura-wdrozenia.md)
