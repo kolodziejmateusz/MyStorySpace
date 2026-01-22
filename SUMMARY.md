@@ -22,3 +22,5 @@
   * [GET /api/libraries](dokumentacja-techniczna/dokumentacja-api/page-5.md)
   * [POST /api/recommend](dokumentacja-techniczna/dokumentacja-api/page-6.md)
 * [Dokumentacja baza danych](dokumentacja-techniczna/dokumentacja-baza-danych.md)
+* [Wymagania środowiskowe](dokumentacja-techniczna/wymagania-srodowiskowe.md)
+* [Procedura uruchomienia](dokumentacja-techniczna/procedura-uruchomienia.md)
