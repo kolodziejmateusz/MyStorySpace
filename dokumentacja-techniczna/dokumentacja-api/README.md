@@ -1,5 +1,5 @@
 ---
-icon: square-github
+icon: webhook
 ---
 
 # Dokumentacja API

@@ -21,3 +21,6 @@
   * [GET /api/bookstores](dokumentacja-techniczna/dokumentacja-api/page-4.md)
   * [GET /api/libraries](dokumentacja-techniczna/dokumentacja-api/page-5.md)
   * [POST /api/recommend](dokumentacja-techniczna/dokumentacja-api/page-6.md)
+* [Dokumentacja bazy danych ](dokumentacja-techniczna/dokumentacja-bazy-danych/README.md)
+  * [Test 1 baza danych](dokumentacja-techniczna/dokumentacja-bazy-danych/test-1-baza-danych.md)
+  * [Test 2 baza danych](dokumentacja-techniczna/dokumentacja-bazy-danych/test-2-baza-danych.md)
