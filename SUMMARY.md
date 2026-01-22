@@ -21,4 +21,4 @@
   * [GET /api/bookstores](dokumentacja-techniczna/dokumentacja-api/page-4.md)
   * [GET /api/libraries](dokumentacja-techniczna/dokumentacja-api/page-5.md)
   * [POST /api/recommend](dokumentacja-techniczna/dokumentacja-api/page-6.md)
-* [Dokumentacja baza danych](dokumentacja-techniczna/test-1-baza-danych.md)
+* [Dokumentacja baza danych](dokumentacja-techniczna/dokumentacja-baza-danych.md)
