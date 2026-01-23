@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import BookCard from '@/components/ui/BookCard';
 import { Book } from '@/types/book';
+import { Skeleton } from '@/components/shadcn-ui/skeleton';
 
 export default function BooksList() {
   const [books, setBooks] = useState<Book[]>([]);
@@ -15,7 +16,6 @@ export default function BooksList() {
     async function fetchBooks() {
       setLoading(true);
       try {
-        // Jeśli query istnieje, dodaj je do URL API
         const apiUrl = query
           ? `/api/books?q=${encodeURIComponent(query)}`
           : '/api/books';
@@ -31,7 +31,7 @@ export default function BooksList() {
     }
 
     fetchBooks();
-  }, [query]); // Ponowne wywołanie, gdy zmieni się parametr wyszukiwania
+  }, [query]);
 
   return (
     <div className="container mx-auto py-8">
@@ -40,8 +40,10 @@ export default function BooksList() {
       </h1>
 
       {loading ? (
-        <div className="flex justify-center">
-          <p>Loading results...</p>
+        <div className="my-4 grid gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <Skeleton key={idx} className="h-64 w-full rounded shadow-lg" />
+          ))}
         </div>
       ) : books.length > 0 ? (
         <div className="my-4 grid gap-6 p-4 md:grid-cols-2 lg:grid-cols-3">

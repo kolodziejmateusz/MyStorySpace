@@ -57,7 +57,7 @@ export default function BookCard({
       className={`relative flex w-full gap-6 rounded-xl p-4 shadow-xl transition-all duration-200 ${
         isSelected
           ? 'scale-[1.02] transform border-2 border-blue-500 bg-blue-200 shadow-lg'
-          : 'hover:bg-blue-150 bg-blue-100'
+          : 'hover:bg-blue-150 bg-blue-50'
       } ${onSelect ? 'cursor-pointer' : ''}`}
       onClick={onSelect ? handleCardClick : undefined}
     >

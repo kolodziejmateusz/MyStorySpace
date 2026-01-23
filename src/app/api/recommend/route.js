@@ -1,6 +1,6 @@
-import { HfInference } from '@huggingface/inference';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const hf = new HfInference(process.env.NEXT_PUBLIC_HF_ACCESS_TOKEN);
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
 
 const SYSTEM_PROMPT = `You are a helpful book recommendation assistant. A user will provide a list of books they have read (titles and authors). Based on that, suggest a few books they might enjoy next.
 
@@ -30,19 +30,27 @@ export async function POST(req) {
       .map((book) => `"${book.title}" by ${book.author}`)
       .join(', ');
 
-    const response = await hf.chatCompletion({
-      model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        {
-          role: 'user',
-          content: `Here is a list of books I've read: ${booksString}. What should I read next? Return only a JSON array with title and author fields.`,
-        },
-      ],
-      max_tokens: 1024,
+    // Inicjalizacja modelu Gemini - POPRAWIONA WERSJA
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-2.5-flash', // Dodano '-latest'
     });
 
-    const content = response.choices[0].message.content;
+    // Wysłanie promptu do Gemini
+    const prompt = `${SYSTEM_PROMPT}
+
+User request: Here is a list of books I've read: ${booksString}. What should I read next? Return only a JSON array with title and author fields.`;
+
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 1024,
+        responseMimeType: 'application/json', // Wymusza format JSON
+      },
+    });
+
+    const response = result.response;
+    const content = response.text();
 
     // Parse the AI response to extract book recommendations
     let recommendedBooks;
@@ -124,8 +132,14 @@ export async function POST(req) {
     );
   } catch (error) {
     console.error('Error in recommendation API:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({
+        error: error.message,
+        details: 'Failed to generate recommendations. Please try again.',
+      }),
+      {
+        status: 500,
+      },
+    );
   }
 }

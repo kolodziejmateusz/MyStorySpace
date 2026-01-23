@@ -1,0 +1,189 @@
+{
+  "query": "Harry Potter i Komnata Tajemnic",
+  "bookstores": [
+    {
+      "id": 1,
+      "name": "Amazon",
+      "type": "książka",
+      "price": 10.68,
+      "img": "https://assets.buybox.click/af4d82f4412138cd2669c4a044be75acb1b3d001.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xNjAzOTU1Njg/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 2,
+      "name": "empik.com",
+      "type": "książka",
+      "price": 18.83,
+      "img": "https://assets.buybox.click/e963fd6816fbe2a568275e68011ee7193a4d22c2.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xMjI5Mzg4ODQ/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnByb21vdGVk"
+    },
+    {
+      "id": 3,
+      "name": "Allegro",
+      "type": "książka",
+      "price": 21.17,
+      "img": "https://assets.buybox.click/5cfed0a4601013ee129d8e0d55efd3a2975f74d9.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xOTgwNjA1NDk/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 4,
+      "name": "dadada.pl",
+      "type": "książka",
+      "price": 21.38,
+      "img": "https://assets.buybox.click/62e15063dc0c1ee92f64f6a0d9617f81bec99618.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xMzcwMTYyND9wMT13ZWJfZGVza3RvcCZwMj01MTg2NDc4LjAuJnAzPWJvb2suZGV0YWlscy5tYWluLmxpc3QucHJvbW90ZWQ="
+    },
+    {
+      "id": 5,
+      "name": "TaniaKsiazka.pl",
+      "type": "książka",
+      "price": 21.57,
+      "img": "https://assets.buybox.click/9e1bc1cb3c94dd5d1170ac98a276c39a77d5e70f.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xMzU3Mjc2NT9wMT13ZWJfZGVza3RvcCZwMj01MTg2NDc4LjAuJnAzPWJvb2suZGV0YWlscy5tYWluLmxpc3QucHJvbW90ZWQ="
+    },
+    {
+      "id": 6,
+      "name": "tantis.pl",
+      "type": "książka",
+      "price": 21.59,
+      "img": "https://assets.buybox.click/c1f2543f59c0240778e4c90fc4633cbc8e689267.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xMzYzMzYyMD9wMT13ZWJfZGVza3RvcCZwMj01MTg2NDc4LjAuJnAzPWJvb2suZGV0YWlscy5tYWluLmxpc3QucHJvbW90ZWQ="
+    },
+    {
+      "id": 7,
+      "name": "swiatksiazki.pl",
+      "type": "książka",
+      "price": 22.16,
+      "img": "https://assets.buybox.click/c3d0131fa99b10fe04c3ecdb44fe133e32d32448.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV84MDY0NTIzMT9wMT13ZWJfZGVza3RvcCZwMj01MTg2NDc4LjAuJnAzPWJvb2suZGV0YWlscy5tYWluLmxpc3QucmVndWxhcg=="
+    },
+    {
+      "id": 8,
+      "name": "Gandalf.com.pl",
+      "type": "książka",
+      "price": 22.72,
+      "img": "https://assets.buybox.click/5d31fcb2c58c075cf88a006be391bf25502e42f7.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xNDA4MDk5OD9wMT13ZWJfZGVza3RvcCZwMj01MTg2NDc4LjAuJnAzPWJvb2suZGV0YWlscy5tYWluLmxpc3QucmVndWxhcg=="
+    },
+    {
+      "id": 9,
+      "name": "czytam.pl",
+      "type": "książka",
+      "price": 22.75,
+      "img": "https://assets.buybox.click/d40e5071c4fb9fea8966516227f42132877bf7df.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xNzQ2MzY0MDA/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 10,
+      "name": "bookseller.pl",
+      "type": "książka",
+      "price": 23.14,
+      "img": "https://assets.buybox.click/34c60655ac893986bcd53860c124e15a15ff8a1c.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8yMTU0NjExMTk/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 11,
+      "name": "matfel.pl",
+      "type": "książka",
+      "price": 23.6,
+      "img": "https://assets.buybox.click/540552334247b2569cf0096375acc08598bdeafc.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xNzI3NTY4NDg/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 12,
+      "name": "Paskarz.pl",
+      "type": "książka",
+      "price": 24.85,
+      "img": "https://assets.buybox.click/77afe615981286572d080a24895e5eafa36fde27.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8yMDAwMTQ0NjE/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 13,
+      "name": "Matras.pl",
+      "type": "książka",
+      "price": 24.85,
+      "img": "https://assets.buybox.click/63965f7afdd46748b19d33cd78c12b285ed39edc.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8yMDY4Nzc2MzI/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 14,
+      "name": "znak.com.pl",
+      "type": "książka",
+      "price": 25.35,
+      "img": "https://assets.buybox.click/9c2a1e8ebc008685bc1482b96b7840c5b764115d.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8yMDY3MDk4Mjk/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnByb21vdGVk"
+    },
+    {
+      "id": 15,
+      "name": "inbook.pl",
+      "type": "książka",
+      "price": 26.07,
+      "img": "https://assets.buybox.click/d367a3f55ea893ae77b63a25fb00de3bfc6dad8a.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xODg4MTUyMTk/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnByb21vdGVk"
+    },
+    {
+      "id": 16,
+      "name": "chodnikliteracki.pl",
+      "type": "książka",
+      "price": 26.85,
+      "img": "https://assets.buybox.click/3d2eb6d0501a9a87fe3f71f640f2b67fab11f5a8.jpeg",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xOTk3OTczMDY/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 17,
+      "name": "lagano.pl",
+      "type": "książka",
+      "price": 26.96,
+      "img": "https://assets.buybox.click/00840049467caa042444ca4b576674b4c30b1540.webp",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8yMTYwOTU4NDg/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 18,
+      "name": "ksiegarnia.pwn.pl",
+      "type": "książka",
+      "price": 27.73,
+      "img": "https://assets.buybox.click/5aa46d239f47fc70e1b2fba312e3c24c14c34b66.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8yMTY1MTM5Nzg/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 19,
+      "name": "gildia.pl",
+      "type": "książka",
+      "price": 28,
+      "img": "https://assets.buybox.click/81145162638d8a577dc6a460ee193eaa03a78f20.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8yMTA1MjYxMzk/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 20,
+      "name": "Bonito.pl",
+      "type": "książka",
+      "price": 30.39,
+      "img": "https://assets.buybox.click/f167ec6490a7860aa179b7d60d3f18cfa5beea96.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xOTM4NzQyNzU/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 21,
+      "name": "Woblink.com",
+      "type": "książka",
+      "price": 35,
+      "img": "https://assets.buybox.click/be9c57b35110461f63c11995aabc7260e7ee245d.png",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV80Nzk1MjQzOT9wMT13ZWJfZGVza3RvcCZwMj01MTg2NDc4LjAuJnAzPWJvb2suZGV0YWlscy5tYWluLmxpc3QucmVndWxhcg=="
+    },
+    {
+      "id": 22,
+      "name": "takczytam.com",
+      "type": "książka",
+      "price": 42.9,
+      "img": "https://assets.buybox.click/85c82a430b3ca302e0d9e1a1869060e0265084e5.jpeg",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8xOTMyOTgzODY/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    },
+    {
+      "id": 23,
+      "name": "Liber.pl",
+      "type": "książka",
+      "price": 57.56,
+      "img": "https://assets.buybox.click/7ce672f212055e56ecd1aff6cd6c6950c0519539.jpeg",
+      "link": "https://lubimyczytac.pl/shop/go?url=aHR0cHM6Ly9nby5idXlib3guY2xpY2svYmJjbGlja18xNzkyOV8yMTQ3NjUxNTA/cDE9d2ViX2Rlc2t0b3AmcDI9NTE4NjQ3OC4wLiZwMz1ib29rLmRldGFpbHMubWFpbi5saXN0LnJlZ3VsYXI="
+    }
+  ]
+}
