@@ -25,7 +25,7 @@
 * [Wymagania środowiskowe](dokumentacja-techniczna/wymagania-srodowiskowe.md)
 * [Procedura uruchomienia](dokumentacja-techniczna/procedura-uruchomienia.md)
 
-## Dokumentacja odbioru i wdrożenia
+## Dokumentacja odbioru, wdrożenia, utrzymania
 
-* [Protokół zgodności produktu z zamówieniem](dokumentacja-odbioru-i-wdrozenia/protokol-zgodnosci-produktu-z-zamowieniem.md)
-* [Procedura wdrozenia](dokumentacja-odbioru-i-wdrozenia/procedura-wdrozenia.md)
+* [Protokół zgodności produktu z zamówieniem](dokumentacja-odbioru-wdrozenia-utrzymania/protokol-zgodnosci-produktu-z-zamowieniem.md)
+* [Procedura wdrozenia](dokumentacja-odbioru-wdrozenia-utrzymania/procedura-wdrozenia.md)
